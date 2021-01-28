@@ -12,35 +12,48 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread thread;
+    // Position du joueur
     private int x;
     private int y;
+    // Dimensions de l'écran
     private int screenWidth;
     private int screenHeight;
+    // Direction actuelle du joueur
     private Direction direction;
-    private int score = -1;
-    private int speed = 40;
-    private Handler handler = new Handler();
-    private Runnable compteur = new Runnable() {
-        @Override
-        public void run() {
-            handler.postDelayed(this, 1000);
-            score++;
-            speed++;
-        }
-    };
+    // Score actuel du joueur
+    private int score;
+    // Vitesse actuelle du joueur
+    private int speed;
+    private Handler handler;
+    private Runnable compteur;
 
+    // Les 4 directions possibles
     private enum Direction {
         HAUT, DROITE, BAS, GAUCHE
     }
 
+    // Constructeur
     public GameView(Context context) {
         super(context);
-        direction = Direction.DROITE;
 
+        score = -1;
+        speed = 40;
+        direction = Direction.DROITE;
+        handler = new Handler();
+        // Tout au long de la partie, on rajoute 1 au score et à la vitesse toutes les secondes
+        compteur = new Runnable() {
+            @Override
+            public void run() {
+                handler.postDelayed(this, 1000);
+                score++;
+                speed++;
+            }
+        };
+
+        // Récupération de la résolution de l'écran
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getRealMetrics(displayMetrics);
@@ -52,6 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
 
+        // On lance le compteur
         handler.postDelayed(compteur, 0);
 
         setFocusable(true);
@@ -72,6 +86,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 x -= speed/5;
                 break;
         }
+        // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score à l'activité de fin de jeu.
         if (x <= 50 || y <= 50 || x >= screenWidth - 50 || y >= screenHeight - 50) {
             handler.removeCallbacks(compteur);
             thread.setRunning(false);
@@ -79,6 +94,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    // On passe à la direction suivante (sens horaire)
     public void changeDirection() {
         direction = Direction.values()[(direction.ordinal() + 1) % 4];
     }
@@ -93,6 +109,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawCircle(x, y, 50, paint);
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
+            // Affichage du score
             canvas.drawText(score + "s", screenWidth / 2, 100, paint);
         }
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+// Activité d'accueil : bouton START
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnStart;
@@ -23,6 +24,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        // Lancement du jeu
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }

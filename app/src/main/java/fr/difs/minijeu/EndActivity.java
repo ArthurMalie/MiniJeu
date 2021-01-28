@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+// Activité de fin de jeu
 public class EndActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnRetry;
@@ -30,6 +31,7 @@ public class EndActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        // On relance une partie
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }

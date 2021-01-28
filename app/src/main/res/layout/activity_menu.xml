@@ -13,33 +13,21 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="202dp" />
+            android:layout_height="200dp" />
 
         <TextView
             android:id="@+id/txtBienvenue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Bienvenue dans le mini-jeu !"
+            android:text="Bienvenue ! ☺"
             android:textSize="26sp"
             android:textStyle="bold"
             android:typeface="normal" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="154dp" />
-
-        <TextView
-            android:id="@+id/txtDecompte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="36sp"
-            android:textStyle="italic" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="73dp" />
+            android:layout_height="225dp" />
 
         <Button
             android:id="@+id/btnStart"
