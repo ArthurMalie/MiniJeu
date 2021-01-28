@@ -22,12 +22,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int screenHeight;
     private Direction direction;
     private int score = -1;
+    private int speed = 10;
     private Handler handler = new Handler();
     private Runnable compteur = new Runnable() {
         @Override
         public void run() {
             handler.postDelayed(this, 1000);
             score++;
+            speed++;
         }
     };
 
@@ -58,16 +60,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         switch (direction) {
             case HAUT:
-                y -= 5;
+                y -= speed/5;
                 break;
             case BAS:
-                y += 5;
+                y += speed/5;
                 break;
             case DROITE:
-                x += 5;
+                x += speed/5;
                 break;
             case GAUCHE:
-                x -= 5;
+                x -= speed/5;
                 break;
         }
         if (x <= 50 || y <= 50 || x >= screenWidth - 50 || y >= screenHeight - 50) {
