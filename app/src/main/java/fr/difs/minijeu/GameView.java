@@ -27,6 +27,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int score;
     // Vitesse actuelle du joueur
     private int speed;
+    private double ax;
+    private double ay;
+
+
     private Handler handler;
     private Runnable compteur;
 
@@ -41,6 +45,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         score = -1;
         speed = 40;
+        ax = 0;
+        ay = 0;
         direction = Direction.DROITE;
         handler = new Handler();
         // Tout au long de la partie, on rajoute 1 au score et à la vitesse toutes les secondes
@@ -72,20 +78,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        switch (direction) {
-            case HAUT:
-                y -= speed/5;
-                break;
-            case BAS:
-                y += speed/5;
-                break;
-            case DROITE:
-                x += speed/5;
-                break;
-            case GAUCHE:
-                x -= speed/5;
-                break;
-        }
+//        switch (direction) {
+//            case HAUT:
+//                y -= speed/5;
+//                break;
+//            case BAS:
+//                y += speed/5;
+//                break;
+//            case DROITE:
+//                x += speed/5;
+//                break;
+//            case GAUCHE:
+//                x -= speed/5;
+//                break;
+//        }
+
+        x -= ax/2;
+        y += ay/2;
+
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score à l'activité de fin de jeu.
         if (x <= 50 || y <= 50 || x >= screenWidth - 50 || y >= screenHeight - 50) {
             handler.removeCallbacks(compteur);
@@ -97,6 +107,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // On passe à la direction suivante (sens horaire)
     public void changeDirection() {
         direction = Direction.values()[(direction.ordinal() + 1) % 4];
+    }
+
+    public void move(double x, double y, double z) {
+        ax = x*10;
+        ay = y*10;
+        if(ax > -1 && ax < 1)
+            ax = 0;
+        if(ay > -1 && ay < 1)
+            ay = 0;
     }
 
     @Override
@@ -111,6 +130,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setTextSize(50);
             // Affichage du score
             canvas.drawText(score + "s", screenWidth / 2, 100, paint);
+            paint.setTextSize(15);
+            canvas.drawText(ax+"", screenWidth / 4, 200, paint);
+            canvas.drawText(ay+"", screenWidth / 4, 250, paint);
         }
     }
 

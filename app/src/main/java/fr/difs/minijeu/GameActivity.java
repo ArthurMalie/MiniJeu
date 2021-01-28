@@ -2,6 +2,10 @@ package fr.difs.minijeu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,9 +15,10 @@ import android.view.WindowManager;
 import static android.view.MotionEvent.ACTION_DOWN;
 
 // Activité du jeu
-public class GameActivity extends Activity implements View.OnTouchListener {
+public class GameActivity extends Activity implements View.OnTouchListener, SensorEventListener {
 
     private GameView gameView;
+    private SensorManager sensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,10 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
 
+        // Accelerometer
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
         gameView = new GameView(this);
         gameView.setOnTouchListener(this);
         setContentView(gameView);
@@ -36,7 +45,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
     // Quand on touche l'écran, on change de direction
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == ACTION_DOWN)
+        if (event.getAction() == ACTION_DOWN)
             gameView.changeDirection();
         return true;
     }
@@ -49,4 +58,15 @@ public class GameActivity extends Activity implements View.OnTouchListener {
         startActivity(intent);
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            gameView.move(event.values[0], event.values[1], event.values[2]);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }
