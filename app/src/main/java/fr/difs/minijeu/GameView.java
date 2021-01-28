@@ -22,7 +22,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int screenHeight;
     private Direction direction;
     private int score = -1;
-    private int speed = 10;
+    private int speed = 40;
     private Handler handler = new Handler();
     private Runnable compteur = new Runnable() {
         @Override
