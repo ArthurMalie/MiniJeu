@@ -16,13 +16,22 @@ public class EndActivity extends AppCompatActivity implements View.OnClickListen
 
     private Button btnRetry;
     private TextView txtScore;
+    private TextView txtWinLose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
 
-        txtScore = (TextView) findViewById(R.id.txtScore);
+        boolean win = getIntent().getBooleanExtra("WIN", false);
+        txtWinLose = findViewById(R.id.txtWinLose);
+        if (win)
+            txtWinLose.setText("VICTOIRE");
+        else
+            txtWinLose.setText("défaite");
+
+
+                    txtScore = (TextView) findViewById(R.id.txtScore);
         txtScore.setText(getIntent().getStringExtra("SCORE") + " secondes");
 
         btnRetry = (Button) findViewById(R.id.btnRetry);

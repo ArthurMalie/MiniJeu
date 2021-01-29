@@ -45,22 +45,24 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
     // Quand on touche l'écran, on change de direction
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == ACTION_DOWN){}
+        if (event.getAction() == ACTION_DOWN) {
+        }
         return true;
     }
 
     // Quand le joueur touche un bord de l'écran, on passe à l'activité de fin de partie
-    public void endGame(int score) {
+    public void endGame(int score, boolean win) {
         Intent intent = new Intent(this, EndActivity.class);
         // On lui passe la variable score
         intent.putExtra("SCORE", String.valueOf(score));
+        intent.putExtra("WIN", win);
         startActivity(intent);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            gameView.move(event.values[0], event.values[1], event.values[2]);
+            gameView.move(event.values[0], event.values[1]);
         }
     }
 

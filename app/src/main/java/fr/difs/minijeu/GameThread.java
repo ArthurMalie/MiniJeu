@@ -26,12 +26,12 @@ public class GameThread extends Thread {
                 // 60 Hz
                 //sleep(1/60*1000);
                 canvas = this.surfaceHolder.lockCanvas();
-                synchronized(surfaceHolder) {
+                synchronized (surfaceHolder) {
                     this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            } catch (Exception e) {}
-            finally {
+            } catch (Exception e) {
+            } finally {
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
