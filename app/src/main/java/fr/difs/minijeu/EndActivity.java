@@ -32,7 +32,7 @@ public class EndActivity extends AppCompatActivity implements View.OnClickListen
 
 
                     txtScore = (TextView) findViewById(R.id.txtScore);
-        txtScore.setText(getIntent().getStringExtra("SCORE") + " secondes");
+        txtScore.setText(getIntent().getStringExtra("SCORE") + " sec.");
 
         btnRetry = (Button) findViewById(R.id.btnRetry);
         btnRetry.setOnClickListener(this);

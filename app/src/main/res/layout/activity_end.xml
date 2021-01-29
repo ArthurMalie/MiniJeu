@@ -15,14 +15,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="75dp" />
+            android:layout_height="131dp" />
 
         <TextView
             android:id="@+id/txtWinLose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="nul"
+            android:text="null"
             android:textAllCaps="true"
             android:textColor="@android:color/holo_orange_light"
             android:textSize="50sp"
@@ -30,26 +30,22 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="101dp" />
 
         <TextView
             android:id="@+id/txtFail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Vous avez survécu"
+            android:text="Score :"
             android:textSize="24sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
 
         <TextView
             android:id="@+id/txtScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="0s"
+            android:text="0"
             android:textSize="50sp"
             android:textStyle="bold" />
 

@@ -20,11 +20,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
     private final boolean ACCELEROMETER_DEBUG_MODE = false;
-    // temps en ms pour le calcul de la fréquence de rafraichissement
-    private long time;
 
     // Taille du joueur et du trou objectif
     private final int PLAYER_SIZE = 40;
+    // Nombre d'ennemis
+    private final int NB_ENNEMIES = 10;
     // Nombre de pixel de marge pour rentrer dans le trou objectif
     private final int PRECISION = 15;
     // Vitesse du joueur (multiplicateur)
@@ -36,6 +36,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // Position de l'arrivée
     private int xWin;
     private int yWin;
+    // Positions des ennemis
+    private int[][] ennemis = new int[NB_ENNEMIES][2];
     // Score actuel du joueur
     private int score;
     private double xSpeed;
@@ -43,6 +45,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // Dimensions de l'écran
     private int screenWidth;
     private int screenHeight;
+    // temps en ms pour le calcul de la fréquence de rafraichissement
+    private long time;
 
     private GameThread thread;
     private Handler handler;
@@ -82,6 +86,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Random random = new Random();
         xWin = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
         yWin = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
+        // Positionnement aléatoire des ennemis
+        for(int[] ennemi : ennemis) {
+            ennemi[0] = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
+            ennemi[1] = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
+        }
 
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
@@ -98,17 +107,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             y += ySpeed;
 
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score et false (perdu) à l'activité de fin de jeu.
-        if ((x <= PLAYER_SIZE || y <= PLAYER_SIZE || x >= screenWidth - PLAYER_SIZE || y >= screenHeight - PLAYER_SIZE) && !ACCELEROMETER_DEBUG_MODE) {
-            handler.removeCallbacks(compteur);
-            thread.setRunning(false);
-            ((GameActivity) getContext()).endGame(score, false);
+        if ((x <= PLAYER_SIZE || y <= PLAYER_SIZE || x >= screenWidth - PLAYER_SIZE || y >= screenHeight - PLAYER_SIZE)
+                && !ACCELEROMETER_DEBUG_MODE) {
+            end(false);
         }
         // Si le joueur gagne, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score et true (gagné) à l'activité de fin de jeu.
         if (x >= xWin - PRECISION && x <= xWin + PRECISION && y >= yWin - PRECISION && y <= yWin + PRECISION) {
-            handler.removeCallbacks(compteur);
-            thread.setRunning(false);
-            ((GameActivity) getContext()).endGame(score, true);
+            end(true);
         }
+        // Si le joueur touche un ennemi, défaite
+        for(int[] hole : ennemis) {
+            if (x >= hole[0] - PRECISION && x <= hole[0] + PRECISION && y >= hole[1] - PRECISION && y <= hole[1] + PRECISION) {
+                end(false);
+            }
+        }
+
+    }
+
+    public void end(boolean win) {
+        handler.removeCallbacks(compteur);
+        thread.setRunning(false);
+        ((GameActivity) getContext()).endGame(score, win);
     }
 
     public void move(double x, double y) {
@@ -124,6 +143,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // background
             canvas.drawColor(Color.BLACK);
+            // lose holes
+            paint.setColor(Color.RED);
+            for(int[] hole : ennemis){
+                canvas.drawCircle(hole[0], hole[1], PLAYER_SIZE, paint);
+            }
             // win hole
             paint.setColor(Color.BLUE);
             canvas.drawCircle(xWin, yWin, PLAYER_SIZE, paint);
