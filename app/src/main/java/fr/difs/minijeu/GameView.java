@@ -6,56 +6,54 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.TimeUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import java.util.Timer;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
-    private GameThread thread;
+    // Mode debug : invincibilité + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
+    private final boolean ACCELEROMETER_DEBUG_MODE = true;
+    // temps en ms pour le calcul de la fréquence de rafraichissement
+    private long time;
+
+    // Vitesse du joueur (multiplicateur)
+    private final double SPEED = 2;
     // Position du joueur
-    private int x;
-    private int y;
+    private double x;
+    private double y;
+    // Score actuel du joueur
+    private int score;
+    private double ax;
+    private double ay;
     // Dimensions de l'écran
     private int screenWidth;
     private int screenHeight;
-    // Direction actuelle du joueur
-    private Direction direction;
-    // Score actuel du joueur
-    private int score;
-    // Vitesse actuelle du joueur
-    private int speed;
-    private double ax;
-    private double ay;
 
-
+    private GameThread thread;
     private Handler handler;
     private Runnable compteur;
-
-    // Les 4 directions possibles
-    private enum Direction {
-        HAUT, DROITE, BAS, GAUCHE
-    }
 
     // Constructeur
     public GameView(Context context) {
         super(context);
 
+        time = 0;
         score = -1;
-        speed = 40;
         ax = 0;
         ay = 0;
-        direction = Direction.DROITE;
+        // Tout au long de la partie, on rajoute 1 au score toutes les secondes
         handler = new Handler();
-        // Tout au long de la partie, on rajoute 1 au score et à la vitesse toutes les secondes
         compteur = new Runnable() {
             @Override
             public void run() {
                 handler.postDelayed(this, 1000);
                 score++;
-                speed++;
             }
         };
 
@@ -78,44 +76,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-//        switch (direction) {
-//            case HAUT:
-//                y -= speed/5;
-//                break;
-//            case BAS:
-//                y += speed/5;
-//                break;
-//            case DROITE:
-//                x += speed/5;
-//                break;
-//            case GAUCHE:
-//                x -= speed/5;
-//                break;
-//        }
 
-        x -= ax/2;
-        y += ay/2;
+        if (x - ax >= 0 && x - ax <= screenWidth)
+            x -= ax;
+        if (y + ay >= 0 && y + ay <= screenHeight)
+            y += ay;
 
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score à l'activité de fin de jeu.
-        if (x <= 50 || y <= 50 || x >= screenWidth - 50 || y >= screenHeight - 50) {
+        if ((x <= 50 || y <= 50 || x >= screenWidth - 50 || y >= screenHeight - 50) && !ACCELEROMETER_DEBUG_MODE) {
             handler.removeCallbacks(compteur);
             thread.setRunning(false);
             ((GameActivity) getContext()).endGame(score);
         }
     }
 
-    // On passe à la direction suivante (sens horaire)
-    public void changeDirection() {
-        direction = Direction.values()[(direction.ordinal() + 1) % 4];
-    }
-
     public void move(double x, double y, double z) {
-        ax = x*10;
-        ay = y*10;
-        if(ax > -1 && ax < 1)
-            ax = 0;
-        if(ay > -1 && ay < 1)
-            ay = 0;
+        ax = x * SPEED;
+        ay = y * SPEED;
     }
 
     @Override
@@ -125,14 +102,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.BLACK);
             Paint paint = new Paint();
             paint.setColor(Color.rgb(100, 255, 100));
-            canvas.drawCircle(x, y, 50, paint);
+            canvas.drawCircle((int) x, (int) y, 50, paint);
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
             // Affichage du score
             canvas.drawText(score + "s", screenWidth / 2, 100, paint);
             paint.setTextSize(15);
-            canvas.drawText(ax+"", screenWidth / 4, 200, paint);
-            canvas.drawText(ay+"", screenWidth / 4, 250, paint);
+
+            if (ACCELEROMETER_DEBUG_MODE) {
+                canvas.drawText("ax : " + ax, 3 * (screenWidth / 4), 100, paint);
+                canvas.drawText("ay : " + ay, 3 * (screenWidth / 4), 125, paint);
+                canvas.drawCircle(screenWidth / 2, screenHeight / 2, 5, paint);
+                canvas.drawLine((float) ((screenWidth / 2) - 50 - ax * 20), (float) ((screenHeight / 2) + ay * 20), (float) ((screenWidth / 2) + 50 - ax * 20), (float) ((screenHeight / 2) + ay * 20), paint);
+                canvas.drawLine((float) ((screenWidth / 2) - ax * 20), (float) ((screenHeight / 2) - 50 + ay * 20), (float) ((screenWidth / 2) - ax * 20), (float) ((screenHeight / 2) + 50 + ay * 20), paint);
+                canvas.drawText(System.currentTimeMillis() - time + "Hz", screenWidth - 75, 30, paint);
+                time = System.currentTimeMillis();
+            }
         }
     }
 

@@ -45,8 +45,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
     // Quand on touche l'écran, on change de direction
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == ACTION_DOWN)
-            gameView.changeDirection();
+        if (event.getAction() == ACTION_DOWN){}
         return true;
     }
 
