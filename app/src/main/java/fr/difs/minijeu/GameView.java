@@ -14,21 +14,26 @@ import androidx.annotation.NonNull;
 
 import java.util.Random;
 
+import fr.difs.minijeu.mapping.Map;
+import fr.difs.minijeu.mapping.Wall;
+
 import static java.lang.Thread.sleep;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
-    // Mode debug : invincibilité + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private final boolean ACCELEROMETER_DEBUG_MODE = false;
+    // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
+    private final boolean ACCELEROMETER_DEBUG_MODE = true;
 
-    // Taille du joueur et du trou objectif
-    private final int PLAYER_SIZE = 40;
+    // Taille de la bille et des trous
+    private final int PLAYER_SIZE = 20;
     // Nombre d'ennemis
-    private final int NB_ENNEMIES = 10;
+    private final int NB_ENNEMIES = 0;
     // Nombre de pixel de marge pour rentrer dans le trou objectif
-    private final int PRECISION = 15;
+    private final int PRECISION = 10;
     // Vitesse du joueur (multiplicateur)
     private final double SPEED = 4;
+
+    private Map map;
 
     // Position du joueur
     private double x;
@@ -53,8 +58,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Runnable compteur;
 
     // Constructeur
-    public GameView(Context context) {
+    public GameView(Context context, Map map) {
         super(context);
+
+        this.map = map;
 
         time = 0;
         score = -1;
@@ -169,9 +176,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
             canvas.drawText(score + "s", screenWidth / 2, 100, paint);
-            paint.setTextSize(15);
+
+            // murs de la map
+            paint.setColor(Color.GRAY);
+            if(map != null) {
+                for (Wall wall : map.getWalls()) {
+                    canvas.drawLine((float) wall.getXa() * screenWidth, (float) wall.getYa() * screenHeight, (float) wall.getXb() * screenWidth, (float) wall.getYb() * screenHeight, paint);
+                    //canvas.drawRect((float) wall.getXa() * screenWidth, (float) wall.getYa() * screenHeight, (float) wall.getXb() * screenWidth, (float) wall.getYb() * screenHeight, paint);
+                }
+            }
 
             if (ACCELEROMETER_DEBUG_MODE) {
+                paint.setTextSize(15);
                 paint.setColor(Color.GREEN);
                 canvas.drawText("xSpeed : " + xSpeed, 3 * (screenWidth / 4), 100, paint);
                 canvas.drawText("ySpeed : " + ySpeed, 3 * (screenWidth / 4), 125, paint);
