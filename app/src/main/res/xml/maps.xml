@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE maps [
     <!ELEMENT maps (map*)>
-    <!ELEMENT map (wall*)>
+    <!ELEMENT map (walls, holes)>
+    <!ELEMENT walls (wall*)>
     <!ELEMENT wall EMPTY>
+    <!ELEMENT holes (hole*)>
+    <!ELEMENT hole EMPTY>
 
     <!ATTLIST map level CDATA #REQUIRED>
     <!ATTLIST map spawnX CDATA #REQUIRED>
     <!ATTLIST map spawnY CDATA #REQUIRED>
+    <!ATTLIST map winX CDATA #REQUIRED>
+    <!ATTLIST map winY CDATA #REQUIRED>
     <!ATTLIST wall left CDATA #REQUIRED>
     <!ATTLIST wall top CDATA #REQUIRED>
     <!ATTLIST wall right CDATA #REQUIRED>
     <!ATTLIST wall bottom CDATA #REQUIRED>
+    <!ATTLIST hole xHole CDATA #REQUIRED>
+    <!ATTLIST hole yHole CDATA #REQUIRED>
     ]>
 
 <maps>
-    <map level="1" spawnX="0.1" spawnY="0.1">
-        <wall left="0" top="0.25" right="0.25" bottom="0.3"></wall>
-        <wall left="0.45" top="0.05" right="0.5" bottom="0.2"></wall>
-        <wall left="0.75" top="0.75" right="0.78" bottom="0.78"></wall>
-        <wall left="0" top="0" right="1" bottom="0.05"></wall>
-        <wall left="0" top="0" right="0.05" bottom="1"></wall>
-        <wall left="0" top="0.95" right="1" bottom="1"></wall>
-        <wall left="0.95" top="0" right="1" bottom="1"></wall>
+    <map level="1" spawnX="0.1" spawnY="0.1" winX="0.9" winY="0.9">
+        <walls>
+            <wall left="0" top="0.25" right="0.25" bottom="0.3"></wall>
+            <wall left="0.45" top="0.05" right="0.5" bottom="0.2"></wall>
+            <wall left="0.75" top="0.75" right="0.78" bottom="0.78"></wall>
+            <wall left="0" top="0" right="1" bottom="0.02"></wall>
+            <wall left="0" top="0" right="0.02" bottom="1"></wall>
+            <wall left="0" top="0.98" right="1" bottom="1"></wall>
+            <wall left="0.98" top="0" right="1" bottom="1"></wall>
+        </walls>
+        <holes>
+            <hole xHole="0.4" yHole="0.6"></hole>
+            <hole xHole="0.6" yHole="0.4"></hole>
+        </holes>
     </map>
 </maps>

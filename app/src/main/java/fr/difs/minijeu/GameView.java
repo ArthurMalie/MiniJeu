@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Random;
 
+import fr.difs.minijeu.mapping.Hole;
 import fr.difs.minijeu.mapping.Map;
 import fr.difs.minijeu.mapping.Wall;
 
@@ -22,12 +23,10 @@ import static java.lang.Thread.sleep;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private final boolean ACCELEROMETER_DEBUG_MODE = true;
+    private final boolean ACCELEROMETER_DEBUG_MODE = false;
 
     // Taille de la bille et des trous
     private final int PLAYER_SIZE = 30;
-    // Nombre d'ennemis
-    private final int NB_ENNEMIES = 5;
     // Nombre de pixel de marge pour rentrer dans le trou objectif
     private final int PRECISION = 30;
     // Vitesse du joueur (multiplicateur)
@@ -41,12 +40,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // Position de l'arrivée
     private int xWin;
     private int yWin;
-    // Positions des ennemis
-    private int[][] ennemis = new int[NB_ENNEMIES][2];
-    // Score actuel du joueur
-    private int score;
+    // Vitesse actuelle du joueur
     private double xSpeed;
     private double ySpeed;
+    // Score actuel du joueur
+    private int score;
     // Dimensions de l'écran
     private int screenWidth;
     private int screenHeight;
@@ -87,19 +85,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
 
-
+        // Apparition du joueur
         x = screenWidth * map.getSpawnX();
         y = screenHeight * map.getSpawnY();
-
-        // Positionnement aléatoire de l'arrivée
-        Random random = new Random();
-        xWin = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
-        yWin = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
-        // Positionnement aléatoire des ennemis
-        for (int[] ennemi : ennemis) {
-            ennemi[0] = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
-            ennemi[1] = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
-        }
+        // Apparition de l'arrivée
+        xWin = (int) (map.getWinX() * screenWidth);
+        yWin = (int) (map.getWinY() * screenHeight);
 
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
@@ -141,8 +132,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             end(true);
         }
         // Si le joueur touche un ennemi, défaite
-        for (int[] hole : ennemis) {
-            if (x >= hole[0] - PRECISION && x <= hole[0] + PRECISION && y >= hole[1] - PRECISION && y <= hole[1] + PRECISION) {
+        for (Hole hole : map.getHoles()) {
+            if (x >= hole.getX() * screenWidth - PRECISION && x <= hole.getX() * screenWidth + PRECISION && y >= hole.getY() * screenHeight - PRECISION && y <= hole.getY() * screenHeight + PRECISION) {
                 end(false);
             }
         }
@@ -190,8 +181,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.BLACK);
             // lose holes
             paint.setColor(Color.RED);
-            for (int[] hole : ennemis) {
-                canvas.drawCircle(hole[0], hole[1], PLAYER_SIZE, paint);
+            for (Hole hole : map.getHoles()) {
+                canvas.drawCircle((float) hole.getX()*screenWidth, (float) hole.getY()*screenHeight, PLAYER_SIZE, paint);
             }
             // win hole
             paint.setColor(Color.BLUE);
