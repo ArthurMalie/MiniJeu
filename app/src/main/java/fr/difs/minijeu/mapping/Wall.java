@@ -2,31 +2,31 @@ package fr.difs.minijeu.mapping;
 
 public class Wall {
 
-    private double xa;
-    private double ya;
-    private double xb;
-    private double yb;
+    private double left;
+    private double top;
+    private double right;
+    private double bottom;
 
-    public Wall(double xa, double ya, double xb, double yb) {
-        this.xa = xa;
-        this.ya = ya;
-        this.xb = xb;
-        this.yb = yb;
+    public Wall(double left, double top, double xb, double bottom) {
+        this.left = left;
+        this.top = top;
+        this.right = xb;
+        this.bottom = bottom;
     }
 
-    public double getXa() {
-        return xa;
+    public double getLeft() {
+        return left;
     }
 
-    public double getXb() {
-        return xb;
+    public double getRight() {
+        return right;
     }
 
-    public double getYa() {
-        return ya;
+    public double getTop() {
+        return top;
     }
 
-    public double getYb() {
-        return yb;
+    public double getBottom() {
+        return bottom;
     }
 }

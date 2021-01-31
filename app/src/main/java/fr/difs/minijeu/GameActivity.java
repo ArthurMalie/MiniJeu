@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -33,28 +32,9 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
         super.onCreate(savedInstanceState);
 
         try {
-
-//            XStream xStream = new XStream();
-//            xStream.alias("maps", Map[].class);
-//            xStream.alias("map", Map.class);
-//            xStream.alias("wall", Wall.class);
-//            xStream.addImplicitArray(Map.class, "walls");
-//            xStream.useAttributeFor(Map.class, "level");
-//            xStream.useAttributeFor(Wall.class, "xa");
-//            xStream.useAttributeFor(Wall.class, "ya");
-//            xStream.useAttributeFor(Wall.class, "xb");
-//            xStream.useAttributeFor(Wall.class, "yb");
-//
-//
-//            File file = new File(Uri.parse(("android.resource://fr.difs.minijeu/xml/maps.xml")).getPath());
-//            Map[] maps = (Map[]) xStream.fromXML(file);
-//            Log.d("ZBOUB", maps[0].getLevel()+"AYAYAYAYAYAYAYYAYAYAYAYAYAYYAYAYAYAYAYAYYAYAYYAYAA");
-
-
+            // Chargement de la map du niveau 1
             XmlResourceParser parser = getResources().getXml(R.xml.maps);
             Map map = parseXml(parser, 1);
-            Log.d("YOLO", "###################################### "+ map.getLevel() + " " + map.getWalls().size() );
-
 
             // Fenêtre de jeu
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -81,20 +61,24 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
     private Map parseXml(XmlResourceParser parser, int i) {
         int eventType = -1;
         List<Wall> walls = new ArrayList<>();
+        double spawnX = 0.5;
+        double spawnY = 0.5;
 
         try {
             while (eventType != parser.END_DOCUMENT) {
                 if (eventType == parser.START_TAG) {
                     String tagName = parser.getName();
                     if (tagName.equals("map") && parser.getAttributeValue(null, "level").equals(String.valueOf(i))) {
+                        spawnX = Double.parseDouble(parser.getAttributeValue(null, "spawnX"));
+                        spawnY = Double.parseDouble(parser.getAttributeValue(null, "spawnY"));
                         eventType = parser.next();
                         while (parser.getName().equals("wall")) {
                             if (eventType == parser.START_TAG) {
-                                double xa = Double.parseDouble(parser.getAttributeValue(null, "xa"));
-                                double ya = Double.parseDouble(parser.getAttributeValue(null, "ya"));
-                                double xb = Double.parseDouble(parser.getAttributeValue(null, "xb"));
-                                double yb = Double.parseDouble(parser.getAttributeValue(null, "yb"));
-                                walls.add(new Wall(xa, ya, xb, yb));
+                                double left = Double.parseDouble(parser.getAttributeValue(null, "left"));
+                                double top = Double.parseDouble(parser.getAttributeValue(null, "top"));
+                                double right = Double.parseDouble(parser.getAttributeValue(null, "right"));
+                                double bottom = Double.parseDouble(parser.getAttributeValue(null, "bottom"));
+                                walls.add(new Wall(left, top, right, bottom));
                             }
                             eventType = parser.next();
                         }
@@ -105,9 +89,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.d("BBBBB", "lose");
-        return new Map(i, walls);
+        return new Map(i, spawnX, spawnY, walls);
     }
 
     // Quand on touche l'écran, on change de direction

@@ -25,11 +25,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private final boolean ACCELEROMETER_DEBUG_MODE = true;
 
     // Taille de la bille et des trous
-    private final int PLAYER_SIZE = 20;
+    private final int PLAYER_SIZE = 30;
     // Nombre d'ennemis
-    private final int NB_ENNEMIES = 0;
+    private final int NB_ENNEMIES = 5;
     // Nombre de pixel de marge pour rentrer dans le trou objectif
-    private final int PRECISION = 10;
+    private final int PRECISION = 30;
     // Vitesse du joueur (multiplicateur)
     private final double SPEED = 4;
 
@@ -86,15 +86,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         wm.getDefaultDisplay().getRealMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
-        x = screenWidth / 2;
-        y = screenHeight / 2;
+
+
+        x = screenWidth * map.getSpawnX();
+        y = screenHeight * map.getSpawnY();
 
         // Positionnement aléatoire de l'arrivée
         Random random = new Random();
         xWin = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
         yWin = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
         // Positionnement aléatoire des ennemis
-        for(int[] ennemi : ennemis) {
+        for (int[] ennemi : ennemis) {
             ennemi[0] = random.nextInt(screenWidth - 100) + PLAYER_SIZE;
             ennemi[1] = random.nextInt(screenHeight - 100) + PLAYER_SIZE;
         }
@@ -108,10 +110,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
 
-        if (x + xSpeed >= 0 && x + xSpeed <= screenWidth)
+        if (x + xSpeed >= 0 && x + xSpeed <= screenWidth && collisionX() == null)
             x += xSpeed;
-        if (y + ySpeed >= 0 && y + ySpeed <= screenHeight)
+        if (y + ySpeed >= 0 && y + ySpeed <= screenHeight && collisionY() == null)
             y += ySpeed;
+
+        // ajustement de la collision
+        Wall collisionX = collisionX();
+        if(collisionX != null) {
+            if(xSpeed > 0)
+                x = collisionX.getLeft() * screenWidth - PLAYER_SIZE;
+            else
+                x = collisionX.getRight() * screenWidth + PLAYER_SIZE;
+        }
+        Wall collisionY = collisionY();
+        if(collisionY != null) {
+            if(ySpeed > 0)
+                y = collisionY.getTop() * screenHeight - PLAYER_SIZE;
+            else
+                y = collisionY.getBottom() * screenHeight + PLAYER_SIZE;
+        }
 
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score et false (perdu) à l'activité de fin de jeu.
         if ((x <= PLAYER_SIZE || y <= PLAYER_SIZE || x >= screenWidth - PLAYER_SIZE || y >= screenHeight - PLAYER_SIZE)
@@ -123,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             end(true);
         }
         // Si le joueur touche un ennemi, défaite
-        for(int[] hole : ennemis) {
+        for (int[] hole : ennemis) {
             if (x >= hole[0] - PRECISION && x <= hole[0] + PRECISION && y >= hole[1] - PRECISION && y <= hole[1] + PRECISION) {
                 end(false);
             }
@@ -142,6 +160,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         ySpeed = y * SPEED;
     }
 
+    public Wall collisionX() {
+        for (Wall wall : map.getWalls()) {
+            if (y - PLAYER_SIZE < wall.getBottom() * screenHeight && y + PLAYER_SIZE > wall.getTop() * screenHeight) {
+                if (x + PLAYER_SIZE + xSpeed > wall.getLeft() * screenWidth && x - PLAYER_SIZE + xSpeed < wall.getRight() * screenWidth)
+                    return wall;
+            }
+        }
+        return null;
+    }
+
+    public Wall collisionY() {
+        for (Wall wall : map.getWalls()) {
+            if (x - PLAYER_SIZE < wall.getRight() * screenWidth && x + PLAYER_SIZE > wall.getLeft() * screenWidth) {
+                if (y + PLAYER_SIZE + ySpeed > wall.getTop() * screenHeight && y - PLAYER_SIZE + ySpeed < wall.getBottom() * screenHeight)
+                    return wall;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -152,7 +190,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawColor(Color.BLACK);
             // lose holes
             paint.setColor(Color.RED);
-            for(int[] hole : ennemis){
+            for (int[] hole : ennemis) {
                 canvas.drawCircle(hole[0], hole[1], PLAYER_SIZE, paint);
             }
             // win hole
@@ -179,10 +217,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // murs de la map
             paint.setColor(Color.GRAY);
-            if(map != null) {
+            if (map != null) {
                 for (Wall wall : map.getWalls()) {
-                    canvas.drawLine((float) wall.getXa() * screenWidth, (float) wall.getYa() * screenHeight, (float) wall.getXb() * screenWidth, (float) wall.getYb() * screenHeight, paint);
-                    //canvas.drawRect((float) wall.getXa() * screenWidth, (float) wall.getYa() * screenHeight, (float) wall.getXb() * screenWidth, (float) wall.getYb() * screenHeight, paint);
+                    canvas.drawRect((float) wall.getLeft() * screenWidth, (float) wall.getTop() * screenHeight, (float) wall.getRight() * screenWidth, (float) wall.getBottom() * screenHeight, paint);
                 }
             }
 

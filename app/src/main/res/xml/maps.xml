@@ -5,17 +5,22 @@
     <!ELEMENT wall EMPTY>
 
     <!ATTLIST map level CDATA #REQUIRED>
-    <!ATTLIST wall xa CDATA #REQUIRED>
-    <!ATTLIST wall ya CDATA #REQUIRED>
-    <!ATTLIST wall xb CDATA #REQUIRED>
-    <!ATTLIST wall yb CDATA #REQUIRED>
+    <!ATTLIST map spawnX CDATA #REQUIRED>
+    <!ATTLIST map spawnY CDATA #REQUIRED>
+    <!ATTLIST wall left CDATA #REQUIRED>
+    <!ATTLIST wall top CDATA #REQUIRED>
+    <!ATTLIST wall right CDATA #REQUIRED>
+    <!ATTLIST wall bottom CDATA #REQUIRED>
     ]>
 
 <maps>
-    <map level="1">
-        <wall xa="0.5" ya="0" xb="0.5" yb="0.25"></wall>
-        <wall xa="0" ya="0.5" xb="0.25" yb="0.5"></wall>
-        <wall xa="1" ya="0.5" xb="0.75" yb="0.5"></wall>
-        <wall xa="0.5" ya="1" xb="0.5" yb="0.75"></wall>
+    <map level="1" spawnX="0.1" spawnY="0.1">
+        <wall left="0" top="0.25" right="0.25" bottom="0.3"></wall>
+        <wall left="0.45" top="0.05" right="0.5" bottom="0.2"></wall>
+        <wall left="0.75" top="0.75" right="0.78" bottom="0.78"></wall>
+        <wall left="0" top="0" right="1" bottom="0.05"></wall>
+        <wall left="0" top="0" right="0.05" bottom="1"></wall>
+        <wall left="0" top="0.95" right="1" bottom="1"></wall>
+        <wall left="0.95" top="0" right="1" bottom="1"></wall>
     </map>
 </maps>
