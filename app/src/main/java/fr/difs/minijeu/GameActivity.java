@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -17,9 +16,13 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.difs.minijeu.mapping.Hole;
+import fr.difs.minijeu.mapping.entities.MaxiBonus;
+import fr.difs.minijeu.mapping.entities.Entity;
 import fr.difs.minijeu.mapping.Map;
 import fr.difs.minijeu.mapping.Wall;
+import fr.difs.minijeu.mapping.entities.Hole;
+import fr.difs.minijeu.mapping.entities.MiniBonus;
+import fr.difs.minijeu.mapping.entities.WinBonus;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 
@@ -28,6 +31,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
 
     private GameView gameView;
     private SensorManager sensorManager;
+    private final int MAP_LEVEL = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
         try {
             // Chargement de la map du niveau 1
             XmlResourceParser parser = getResources().getXml(R.xml.maps);
-            Map map = parseXml(parser, 1);
+            Map map = parseXml(parser, MAP_LEVEL);
 
             // Fenêtre de jeu
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -63,11 +67,10 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
     private Map parseXml(XmlResourceParser parser, int i) {
         int eventType = -1;
         List<Wall> walls = new ArrayList<>();
-        List<Hole> holes = new ArrayList<>();
-        double spawnX = 0.5;
-        double spawnY = 0.5;
-        double winX = 0.5;
-        double winY = 0.5;
+        List<Entity> entities = new ArrayList<>();
+        double spawnX = 0;
+        double spawnY = 0;
+        double playerSize = 0;
 
         try {
             while (eventType != parser.END_DOCUMENT) {
@@ -75,8 +78,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
                     if (parser.getName().equals("map") && parser.getAttributeValue(null, "level").equals(String.valueOf(i))) {
                         spawnX = Double.parseDouble(parser.getAttributeValue(null, "spawnX"));
                         spawnY = Double.parseDouble(parser.getAttributeValue(null, "spawnY"));
-                        winX = Double.parseDouble(parser.getAttributeValue(null, "winX"));
-                        winY = Double.parseDouble(parser.getAttributeValue(null, "winY"));
+                        playerSize = Double.parseDouble(parser.getAttributeValue(null, "playerSize"));
                         eventType = parser.next();
                         if (eventType == parser.START_TAG && parser.getName().equals("walls")) {
                             eventType = parser.next();
@@ -93,13 +95,33 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
                         }
                         while(eventType != parser.START_TAG)
                             eventType = parser.next();
-                        if (parser.getName().equals("holes")) {
+                        if (parser.getName().equals("entities")) {
                             eventType = parser.next();
-                            while (parser.getName().equals("hole")) {
+                            while (parser.getName().equals("entity")) {
                                 if (eventType == parser.START_TAG) {
-                                    double xHole = Double.parseDouble(parser.getAttributeValue(null, "xHole"));
-                                    double yHole = Double.parseDouble(parser.getAttributeValue(null, "yHole"));
-                                    holes.add(new Hole(xHole, yHole));
+                                    double x = Double.parseDouble(parser.getAttributeValue(null, "x"));
+                                    double y = Double.parseDouble(parser.getAttributeValue(null, "y"));
+                                    double size = Double.parseDouble(parser.getAttributeValue(null, "size"));
+                                    String type = parser.getAttributeValue(null, "type");
+                                    Entity entity;
+                                    switch (type) {
+                                        case "win":
+                                            entity = new WinBonus(x, y, size);
+                                            break;
+                                        case "hole":
+                                            entity = new Hole((x), y, size);
+                                            break;
+                                        case "big":
+                                            entity = new MaxiBonus(x, y, size);
+                                            break;
+                                        case "small":
+                                            entity = new MiniBonus(x, y, size);
+                                            break;
+                                        default:
+                                            entity = new Hole(x, y, 1);
+                                    }
+
+                                    entities.add(entity);
                                 }
                                 eventType = parser.next();
                             }
@@ -108,11 +130,12 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
                 }
                 eventType = parser.next();
             }
+            return new Map(i, spawnX, spawnY, playerSize, walls, entities);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e.toString());
         }
-        Log.d("HOLES", winX + "");
-        return new Map(i, spawnX, spawnY, winX, winY, walls, holes);
+        return null;
     }
 
     // Quand on touche l'écran, on change de direction

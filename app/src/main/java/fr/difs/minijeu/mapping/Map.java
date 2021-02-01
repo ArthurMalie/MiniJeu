@@ -2,24 +2,26 @@ package fr.difs.minijeu.mapping;
 
 import java.util.List;
 
+import fr.difs.minijeu.mapping.entities.Entity;
+
 public class Map {
 
     private int level;
     private double spawnX;
     private double spawnY;
-    private double winX;
-    private double winY;
+    private double playerSize;
     private List<Wall> walls;
-    private List<Hole> Holes;
+    private List<Entity> entities;
+    private int screenWidth;
+    private int screenHeight;
 
-    public Map(int level, double spawnX, double spawnY, double winX, double winY, List<Wall> walls, List<Hole> holes) {
+    public Map(int level, double spawnX, double spawnY, double playerSize, List<Wall> walls, List<Entity> entities) {
         this.level = level;
-        this.spawnX = spawnX;
-        this.spawnY = spawnY;
-        this.winX = winX;
-        this.winY = winY;
+        this.spawnX = spawnX / 20;
+        this.spawnY = spawnY / 32;
+        this.playerSize = playerSize / 40;
         this.walls = walls;
-        Holes = holes;
+        this.entities = entities;
     }
 
     public int getLevel() {
@@ -34,19 +36,25 @@ public class Map {
         return spawnY;
     }
 
-    public double getWinX() {
-        return winX;
-    }
-
-    public double getWinY() {
-        return winY;
+    public double getPlayerSize() {
+        return playerSize;
     }
 
     public List<Wall> getWalls() {
         return walls;
     }
 
-    public List<Hole> getHoles() {
-        return Holes;
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setDimensions(int width, int height) {
+        spawnX *= width;
+        spawnY *= height;
+        playerSize *= width;
+        for(Wall wall : walls)
+            wall.setDimensions(width, height);
+        for(Entity entity : entities)
+            entity.setDimensions(width, height);
     }
 }

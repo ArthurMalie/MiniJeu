@@ -1,39 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE maps [
     <!ELEMENT maps (map*)>
-    <!ELEMENT map (walls, holes)>
+    <!ELEMENT map (walls, entities)>
     <!ELEMENT walls (wall*)>
     <!ELEMENT wall EMPTY>
-    <!ELEMENT holes (hole*)>
-    <!ELEMENT hole EMPTY>
+    <!ELEMENT entities (entity*)>
+    <!ELEMENT entity EMPTY>
 
     <!ATTLIST map level CDATA #REQUIRED>
     <!ATTLIST map spawnX CDATA #REQUIRED>
     <!ATTLIST map spawnY CDATA #REQUIRED>
-    <!ATTLIST map winX CDATA #REQUIRED>
-    <!ATTLIST map winY CDATA #REQUIRED>
+    <!ATTLIST map playerSize CDATA #REQUIRED>
     <!ATTLIST wall left CDATA #REQUIRED>
     <!ATTLIST wall top CDATA #REQUIRED>
     <!ATTLIST wall right CDATA #REQUIRED>
     <!ATTLIST wall bottom CDATA #REQUIRED>
-    <!ATTLIST hole xHole CDATA #REQUIRED>
-    <!ATTLIST hole yHole CDATA #REQUIRED>
+    <!ATTLIST entity x CDATA #REQUIRED>
+    <!ATTLIST entity y CDATA #REQUIRED>
+    <!ATTLIST entity type CDATA #REQUIRED>
+    <!ATTLIST entity size CDATA #REQUIRED>
+    <!ATTLIST entity uses CDATA #IMPLIED>
     ]>
 
 <maps>
-    <map level="1" spawnX="0.1" spawnY="0.1" winX="0.9" winY="0.9">
+    <map level="1" spawnX="3" spawnY="3" playerSize="1.8">
         <walls>
-            <wall left="0" top="0.25" right="0.25" bottom="0.3"></wall>
-            <wall left="0.45" top="0.05" right="0.5" bottom="0.2"></wall>
-            <wall left="0.75" top="0.75" right="0.78" bottom="0.78"></wall>
-            <wall left="0" top="0" right="1" bottom="0.02"></wall>
-            <wall left="0" top="0" right="0.02" bottom="1"></wall>
-            <wall left="0" top="0.98" right="1" bottom="1"></wall>
-            <wall left="0.98" top="0" right="1" bottom="1"></wall>
+            <wall left="0" top="0" right="20" bottom="1"/>
+            <wall left="0" top="0" right="1" bottom="32"/>
+            <wall left="0" top="31" right="20" bottom="32"/>
+            <wall left="19" top="0" right="20" bottom="32"/>
+            <wall left="6" top="0" right="8" bottom="26"/>
+            <wall left="1" top="6" right="4" bottom="8"/>
+            <wall left="3" top="24" right="7" bottom="26"/>
+            <wall left="8" top="24" right="12" bottom="26"/>
+            <wall left="8" top="12" right="12" bottom="14"/>
+            <wall left="15" top="12" right="19" bottom="14"/>
+            <wall left="15" top="24" right="19" bottom="26"/>
+            <wall left="10" top="7" right="17" bottom="8"/>
+            <wall left="10" top="18" right="17" bottom="20"/>
+            <wall left="10" top="3" right="11" bottom="7"/>
+            <wall left="16" top="3" right="17" bottom="7"/>
+            <wall left="11" top="3" right="12" bottom="4"/>
+            <wall left="15" top="3" right="16" bottom="4"/>
         </walls>
-        <holes>
-            <hole xHole="0.4" yHole="0.6"></hole>
-            <hole xHole="0.6" yHole="0.4"></hole>
-        </holes>
+        <entities>
+            <entity x="13.5" y="5.5" size="2" type="win"/>
+            <entity x="2" y="10" size="2" type="hole"/>
+            <entity x="5" y="14" size="2" type="hole"/>
+            <entity x="2" y="18" size="2" type="hole"/>
+            <entity x="5" y="22" size="2" type="hole"/>
+            <entity x="3" y="30" size="2" type="hole"/>
+            <entity x="7" y="27" size="2" type="hole"/>
+            <entity x="17" y="27" size="2" type="hole"/>
+            <entity x="17" y="30" size="2" type="hole"/>
+            <entity x="9" y="23" size="2" type="hole"/>
+            <entity x="16" y="21" size="2" type="hole"/>
+            <entity x="11" y="17" size="2" type="hole"/>
+            <entity x="18" y="15" size="2" type="hole"/>
+            <entity x="16" y="11" size="2" type="hole"/>
+            <entity x="11" y="9" size="2" type="hole"/>
+            <entity x="4" y ="4" size="1" type="big"/>
+        </entities>
     </map>
+
+    <map level="2" spawnX="5" spawnY="10" playerSize="1.8">
+    <walls>
+        <wall left="0" top="0" right="20" bottom="1"/>
+        <wall left="0" top="0" right="1" bottom="32"/>
+        <wall left="0" top="31" right="20" bottom="32"/>
+        <wall left="19" top="0" right="20" bottom="32"/>
+        <wall left="9" top="0" right="11" bottom="14"/>
+        <wall left="9" top="17" right="11" bottom="29"/>
+        <wall left="4" top="14" right="16" bottom="15"/>
+        <wall left="4" top="16" right="16" bottom="17"/>
+    </walls>
+    <entities>
+        <entity x="3" y="28.5" size="2.5" type="win"/>
+        <entity x="3" y="4" size="0.8" type="big"/>
+        <entity x="13" y="4" size="0.8" type="small"/>
+        <entity x="7" y="4" size="0.8" type="small"/>
+        <entity x="17" y="4" size="0.8" type="big"/>
+
+        <entity x="3.5" y="21" size="4.9" type="hole"/>
+        <entity x="6.5" y="25" size="4.9" type="hole"/>
+
+        <entity x="11.5" y="18.5" size="1" type="hole"/>
+        <entity x="12.5" y="18.5" size="1" type="hole"/>
+        <entity x="13.5" y="18.5" size="1" type="hole"/>
+        <entity x="14.5" y="18.5" size="1" type="hole"/>
+        <entity x="15.5" y="18.5" size="1" type="hole"/>
+        <entity x="16.5" y="18.5" size="1" type="hole"/>
+        <entity x="17.5" y="18.5" size="1" type="hole"/>
+        <entity x="18.5" y="18.5" size="1" type="hole"/>
+
+        <entity x="11.5" y="21.5" size="1" type="hole"/>
+        <entity x="12.5" y="21.5" size="1" type="hole"/>
+        <entity x="13.5" y="21.5" size="1" type="hole"/>
+        <entity x="14.5" y="21.5" size="1" type="hole"/>
+        <entity x="15.5" y="21.5" size="1" type="hole"/>
+        <entity x="16.5" y="21.5" size="1" type="hole"/>
+        <entity x="17.5" y="21.5" size="1" type="hole"/>
+        <entity x="18.5" y="21.5" size="1" type="hole"/>
+
+        <entity x="11.5" y="24.5" size="1" type="hole"/>
+        <entity x="12.5" y="24.5" size="1" type="hole"/>
+        <entity x="13.5" y="24.5" size="1" type="hole"/>
+        <entity x="14.5" y="24.5" size="1" type="hole"/>
+        <entity x="15.5" y="24.5" size="1" type="hole"/>
+        <entity x="16.5" y="24.5" size="1" type="hole"/>
+        <entity x="17.5" y="24.5" size="1" type="hole"/>
+        <entity x="18.5" y="24.5" size="1" type="hole"/>
+
+        <entity x="11.5" y="27.5" size="1" type="hole"/>
+        <entity x="12.5" y="27.5" size="1" type="hole"/>
+        <entity x="13.5" y="27.5" size="1" type="hole"/>
+        <entity x="14.5" y="27.5" size="1" type="hole"/>
+        <entity x="15.5" y="27.5" size="1" type="hole"/>
+        <entity x="16.5" y="27.5" size="1" type="hole"/>
+        <entity x="17.5" y="27.5" size="1" type="hole"/>
+        <entity x="18.5" y="27.5" size="1" type="hole"/>
+    </entities>
+</map>
+
+
+
 </maps>
