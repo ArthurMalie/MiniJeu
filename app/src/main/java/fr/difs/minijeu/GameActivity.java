@@ -31,7 +31,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
 
     private GameView gameView;
     private SensorManager sensorManager;
-    private final int MAP_LEVEL = 2;
+    private final int MAP_LEVEL = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
