@@ -38,7 +38,7 @@ public class GameActivity extends Activity implements View.OnTouchListener, Sens
         super.onCreate(savedInstanceState);
 
         try {
-            // Chargement de la map du niveau 1
+            // Chargement de la map du niveau MAP_LEVEL
             XmlResourceParser parser = getResources().getXml(R.xml.maps);
             Map map = parseXml(parser, MAP_LEVEL);
 

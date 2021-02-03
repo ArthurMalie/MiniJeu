@@ -30,9 +30,9 @@ import static java.lang.Thread.sleep;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private final boolean ACCELEROMETER_DEBUG_MODE = true;
+    private final boolean ACCELEROMETER_DEBUG_MODE = false;
     // Vitesse du joueur (multiplicateur)
-    private final double SPEED = 3;
+    private final double SPEED = 4;
 
     // Niveau sur lequel la partie va s'effectuer (contient les murs et les entités)
     private Map map;
@@ -115,13 +115,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 collides = collide(newXSpeed, newYSpeed);
             }
             if (collide(0, newYSpeed).isEmpty()) {
-                Log.d("Collide", "UNO");
                 newXSpeed *= 0.9;
             } else if (collide(newXSpeed, 0).isEmpty()) {
-                Log.d("Collide", "DOS");
                 newYSpeed *= 0.9;
             } else {
-                Log.d("Collide", "TRES");
                 while (collide(newXSpeed, newYSpeed).size() == 1) {
                     if (xSpeed > 0)
                         newXSpeed -= 0.001;
