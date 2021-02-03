@@ -1,6 +1,5 @@
 package fr.difs.minijeu;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.hardware.Sensor;
@@ -12,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import fr.difs.minijeu.mapping.entities.WinBonus;
 import static android.view.MotionEvent.ACTION_DOWN;
 
 // Activité du jeu
-public class GameActivity extends Activity implements View.OnTouchListener, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
 
     private GameView gameView;
     private SensorManager sensorManager;
