@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,10 +27,8 @@ import fr.difs.minijeu.mapping.entities.Hole;
 import fr.difs.minijeu.mapping.entities.MiniBonus;
 import fr.difs.minijeu.mapping.entities.WinBonus;
 
-import static android.view.MotionEvent.ACTION_DOWN;
-
 // Activité du jeu
-public class GameActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
 
     private GameView gameView;
     private SensorManager sensorManager;
@@ -64,9 +64,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         // Lancement
         if (map != null) {
+            LinearLayout layout = new LinearLayout(getApplicationContext());
             gameView = new GameView(this, map);
-            gameView.setOnClickListener(this);
-            setContentView(gameView);
+            layout.setOnTouchListener(this);
+            layout.addView(gameView);
+            setContentView(layout);
         }
     }
 
@@ -143,15 +145,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         return null;
     }
 
-    // Quand on touche l'écran, on change de direction
-    @Override
-    public void onClick(View v) {
-        if(v.getX() < gameView.getScreenWidth()/15 && v.getY() < gameView.getScreenWidth()/15) {
-            Intent intent = new Intent(this, MenuActivity.class);
-            startActivity(intent);
-        }
-    }
-
     // Quand le joueur touche un bord de l'écran, on passe à l'activité de fin de partie
     public void endGame(int score, boolean win) {
         Intent intent = new Intent(this, EndActivity.class);
@@ -173,5 +166,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getX() < gameView.getScreenWidth()/15 && event.getY() < gameView.getScreenWidth()/15) {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
+        return false;
     }
 }
