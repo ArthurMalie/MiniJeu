@@ -28,40 +28,45 @@ import fr.difs.minijeu.mapping.entities.WinBonus;
 import static android.view.MotionEvent.ACTION_DOWN;
 
 // Activité du jeu
-public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
 
     private GameView gameView;
     private SensorManager sensorManager;
-    private final int MAP_LEVEL = 0;
+    private int mapLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Préparation de la fenêtre
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        // Accelerometer
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
+        // Récupération du niveau à charger mapLevel
+        mapLevel = getIntent().getIntExtra("LEVEL", 1);
+
+        // Chargement de la map du niveau mapLevel
+        XmlResourceParser parser = getResources().getXml(R.xml.maps);
+        Map map = null;
+
         try {
-            // Chargement de la map du niveau MAP_LEVEL
-            XmlResourceParser parser = getResources().getXml(R.xml.maps);
-            Map map = parseXml(parser, MAP_LEVEL);
-
-            // Fenêtre de jeu
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-            // Pour masquer la barre de navigation en bas de l'écran
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-            decorView.setSystemUiVisibility(uiOptions);
-
-            // Accelerometer
-            sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-            sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-
-            gameView = new GameView(this, map);
-            gameView.setOnTouchListener(this);
-            setContentView(gameView);
-
+            map = parseXml(parser, mapLevel);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        // Lancement
+        if (map != null) {
+            gameView = new GameView(this, map);
+            gameView.setOnClickListener(this);
+            setContentView(gameView);
         }
     }
 
@@ -94,7 +99,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                                 eventType = parser.next();
                             }
                         }
-                        while(eventType != parser.START_TAG)
+                        while (eventType != parser.START_TAG)
                             eventType = parser.next();
                         if (parser.getName().equals("entities")) {
                             eventType = parser.next();
@@ -121,7 +126,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                                         default:
                                             entity = new Hole(x, y, 1);
                                     }
-
                                     entities.add(entity);
                                 }
                                 eventType = parser.next();
@@ -141,10 +145,11 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     // Quand on touche l'écran, on change de direction
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == ACTION_DOWN) {
+    public void onClick(View v) {
+        if(v.getX() < gameView.getScreenWidth()/15 && v.getY() < gameView.getScreenWidth()/15) {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
         }
-        return true;
     }
 
     // Quand le joueur touche un bord de l'écran, on passe à l'activité de fin de partie
@@ -153,6 +158,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         // On lui passe la variable score
         intent.putExtra("SCORE", String.valueOf(score));
         intent.putExtra("WIN", win);
+        intent.putExtra("LEVEL", mapLevel);
+
         startActivity(intent);
     }
 

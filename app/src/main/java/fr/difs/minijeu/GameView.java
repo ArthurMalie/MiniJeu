@@ -181,26 +181,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             ySpeed = -playerSize;
     }
 
-    public Wall collisionX() {
-        for (Wall wall : map.getWalls()) {
-            if (y - playerSize < wall.getBottom() && y + playerSize > wall.getTop()) {
-                if (x + playerSize + xSpeed > wall.getLeft() && x - playerSize + xSpeed < wall.getRight())
-                    return wall;
-            }
-        }
-        return null;
-    }
-
-    public Wall collisionY() {
-        for (Wall wall : map.getWalls()) {
-            if (x - playerSize < wall.getRight() && x + playerSize > wall.getLeft()) {
-                if (y + playerSize + ySpeed > wall.getTop() && y - playerSize + ySpeed < wall.getBottom())
-                    return wall;
-            }
-        }
-        return null;
-    }
-
     public List<Wall> collide(double xSpeed, double ySpeed) {
 
         List<Wall> walls = new ArrayList<>();
@@ -332,8 +312,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // score
             paint.setColor(Color.WHITE);
-            paint.setTextSize(50);
-            canvas.drawText(score + "s", screenWidth / 2, 100, paint);
+            paint.setTextSize(screenHeight/16);
+            paint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText(score + "", screenWidth/2, 80, paint);
+
+            // croix pour quitter
+            canvas.drawLine(screenWidth/15, 0, screenWidth/15, screenWidth/15, paint);
+            canvas.drawLine(0, screenWidth/15, screenWidth/15, screenWidth/15, paint);
+            canvas.drawLine(screenWidth/15, 0, 0, screenWidth/15, paint);
+            canvas.drawLine(0, 0, screenWidth/15, screenWidth/15, paint);
 
             if (ACCELEROMETER_DEBUG_MODE) {
                 paint.setTextSize(15);
@@ -355,6 +342,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 time = System.currentTimeMillis();
             }
         }
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 
     @Override

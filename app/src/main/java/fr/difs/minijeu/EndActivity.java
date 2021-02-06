@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.net.Inet4Address;
+
 // Activité de fin de jeu
 public class EndActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnRetry;
+    private Button btnMenu;
     private TextView txtScore;
     private TextView txtWinLose;
 
@@ -36,12 +39,25 @@ public class EndActivity extends AppCompatActivity implements View.OnClickListen
 
         btnRetry = (Button) findViewById(R.id.btnRetry);
         btnRetry.setOnClickListener(this);
+        btnMenu = (Button) findViewById(R.id.btnEndMenu);
+        btnMenu .setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        // On relance une partie
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.btnRetry:
+                // On relance une partie
+                intent = new Intent(this, GameActivity.class);
+                int level = getIntent().getIntExtra("LEVEL", 0);
+                intent.putExtra("LEVEL", level);
+                startActivity(intent);
+                break;
+            case R.id.btnEndMenu:
+                intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

@@ -18,23 +18,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Bienvenue ! ☺"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:typeface="normal" />
+            android:text="CRAZY LABYRINTH"
+            android:textSize="50sp"
+            android:textStyle="bold|italic"
+            android:typeface="serif" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="225dp" />
 
         <Button
-            android:id="@+id/btnStart"
+            android:id="@+id/btnPlay"
             android:layout_width="match_parent"
             android:layout_height="77dp"
             android:backgroundTint="@android:color/holo_orange_light"
-            android:text="Start"
+            android:text="PLAY"
             android:textSize="30sp"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+        <Button
+            android:id="@+id/btnLevelSelect"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:text="Level select"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
