@@ -1,6 +1,8 @@
 package fr.difs.minijeu;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -51,6 +53,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int screenHeight;
     // temps en ms pour le calcul de la fréquence de rafraichissement
     private long time;
+    // Bitmap de l'image de la bille
+    Bitmap bitmap;
 
     private GameThread thread;
     private Handler handler;
@@ -66,6 +70,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         wm.getDefaultDisplay().getRealMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
+
+        // Image de la bille
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
 
         this.map = map;
         map.setDimensions(screenWidth, screenHeight);
@@ -284,19 +291,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
 
             // player
-            paint.setColor(Color.rgb(240, 154, 5));
-            canvas.drawCircle((int) x, (int) y, playerSize, paint);
-            paint.setColor(Color.rgb(255, 196, 0));
-            canvas.drawCircle((int) x - 3, (int) y + 1, (int) (playerSize * 0.95), paint);
-            paint.setColor(Color.WHITE);
-            canvas.drawCircle((int) (x - playerSize / 2.5), (int) y - 5, playerSize / 5, paint);
-            canvas.drawCircle((int) (x + playerSize / 2.5), (int) y - 5, playerSize / 5, paint);
-            paint.setColor(Color.BLACK);
-            canvas.drawCircle((int) x - playerSize / 2, (int) (y - playerSize / 6.25), 3, paint);
-            canvas.drawCircle((int) x + playerSize / 2, (int) (y - playerSize / 6.25), 3, paint);
-            canvas.drawOval((float) (x - playerSize / 3.125), (float) y + 5, (float) (x + playerSize / 3.125), (float) y + playerSize - 5, paint);
-            paint.setColor(Color.RED);
-            canvas.drawOval((float) (x - playerSize / 6.25), (float) (y + playerSize / 1.5), (float) (x + playerSize / 6.25), (float) (y + playerSize / 1.16), paint);
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (playerSize * 2), (int) (playerSize * 2), true);
+            canvas.drawBitmap(bitmap, (float) x-playerSize, (float) y-playerSize, null);
+
+//            paint.setColor(Color.rgb(240, 154, 5));
+//            canvas.drawCircle((int) x, (int) y, playerSize, paint);
+//            paint.setColor(Color.rgb(255, 196, 0));
+//            canvas.drawCircle((int) x - 3, (int) y + 1, (int) (playerSize * 0.95), paint);
+//            paint.setColor(Color.WHITE);
+//            canvas.drawCircle((int) (x - playerSize / 2.5), (int) y - 5, playerSize / 5, paint);
+//            canvas.drawCircle((int) (x + playerSize / 2.5), (int) y - 5, playerSize / 5, paint);
+//            paint.setColor(Color.BLACK);
+//            canvas.drawCircle((int) x - playerSize / 2, (int) (y - playerSize / 6.25), 3, paint);
+//            canvas.drawCircle((int) x + playerSize / 2, (int) (y - playerSize / 6.25), 3, paint);
+//            canvas.drawOval((float) (x - playerSize / 3.125), (float) y + 5, (float) (x + playerSize / 3.125), (float) y + playerSize - 5, paint);
+//            paint.setColor(Color.RED);
+//            canvas.drawOval((float) (x - playerSize / 6.25), (float) (y + playerSize / 1.5), (float) (x + playerSize / 6.25), (float) (y + playerSize / 1.16), paint);
 
             // murs de la map
             paint.setColor(Color.rgb(15, 128, 0));//255, 115, 0));
