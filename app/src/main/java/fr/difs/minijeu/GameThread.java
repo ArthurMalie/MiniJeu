@@ -23,8 +23,6 @@ public class GameThread extends Thread {
         while (running) {
             canvas = null;
             try {
-                // 60 Hz
-                //sleep(1/60*1000);
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
                     this.gameView.update();

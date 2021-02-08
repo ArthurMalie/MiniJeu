@@ -27,8 +27,6 @@ import fr.difs.minijeu.mapping.entities.Hole;
 import fr.difs.minijeu.mapping.entities.MiniBonus;
 import fr.difs.minijeu.mapping.entities.WinBonus;
 
-import static java.lang.Thread.sleep;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
@@ -78,16 +76,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         map.setDimensions(screenWidth, screenHeight);
 
         time = 0;
-        score = -1;
+        score = 0;
         xSpeed = 0;
         ySpeed = 0;
 
-        // Tout au long de la partie, on rajoute 1 au score toutes les secondes
+        // Tout au long de la partie, on rajoute 1 au score tous les centiemes de seconde
         handler = new Handler();
         compteur = new Runnable() {
             @Override
             public void run() {
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 10);
                 score++;
             }
         };
@@ -221,7 +219,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void end(boolean win) {
         handler.removeCallbacks(compteur);
         thread.setRunning(false);
-        ((GameActivity) getContext()).endGame(score, win);
+        ((GameActivity) getContext()).endGame(score/100, win);
+    }
+
+    public void pause() {
+        thread.setRunning(false);
+        // On stoppe le compteur
+        handler.removeCallbacks(compteur);
+    }
+
+    public void resume() {
+        thread = new GameThread(getHolder(), this);
+        thread.setRunning(true);
+        thread.start();
+        // On relance le compteur
+        handler.postDelayed(compteur, 0);
     }
 
     @Override
@@ -292,8 +304,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // player
             bitmap = Bitmap.createScaledBitmap(bitmap, (int) (playerSize * 2), (int) (playerSize * 2), true);
-            canvas.drawBitmap(bitmap, (float) x-playerSize, (float) y-playerSize, null);
+            canvas.drawBitmap(bitmap, (float) x - playerSize, (float) y - playerSize, null);
 
+            // smiley
 //            paint.setColor(Color.rgb(240, 154, 5));
 //            canvas.drawCircle((int) x, (int) y, playerSize, paint);
 //            paint.setColor(Color.rgb(255, 196, 0));
@@ -322,15 +335,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // score
             paint.setColor(Color.WHITE);
-            paint.setTextSize(screenHeight/16);
+            paint.setTextSize(screenHeight / 16);
             paint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(score + "", screenWidth/2, 80, paint);
-
-            // croix pour quitter
-            canvas.drawLine(screenWidth/15, 0, screenWidth/15, screenWidth/15, paint);
-            canvas.drawLine(0, screenWidth/15, screenWidth/15, screenWidth/15, paint);
-            canvas.drawLine(screenWidth/15, 0, 0, screenWidth/15, paint);
-            canvas.drawLine(0, 0, screenWidth/15, screenWidth/15, paint);
+            canvas.drawText(score/100 + "", screenWidth / 2, 80, paint);
 
             if (ACCELEROMETER_DEBUG_MODE) {
                 paint.setTextSize(15);
@@ -352,14 +359,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 time = System.currentTimeMillis();
             }
         }
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
     }
 
     @Override

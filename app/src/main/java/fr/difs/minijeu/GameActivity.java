@@ -7,11 +7,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,15 +31,18 @@ import fr.difs.minijeu.mapping.entities.MiniBonus;
 import fr.difs.minijeu.mapping.entities.WinBonus;
 
 // Activité du jeu
-public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
 
     private GameView gameView;
     private SensorManager sensorManager;
     private int mapLevel;
+    private boolean paused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        paused = false;
 
         // Préparation de la fenêtre
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -63,13 +69,18 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         // Lancement
+        setContentView(R.layout.activity_game);
+
+        RelativeLayout gameLayout = findViewById(R.id.gameLayout);
+        gameLayout.setOnClickListener(this);
+
         if (map != null) {
-            LinearLayout layout = new LinearLayout(getApplicationContext());
             gameView = new GameView(this, map);
-            layout.setOnTouchListener(this);
-            layout.addView(gameView);
-            setContentView(layout);
+            gameLayout.addView(gameView);
         }
+
+        Button btnPause = findViewById(R.id.btnPause);
+        btnPause.setOnClickListener(this);
     }
 
     private Map parseXml(XmlResourceParser parser, int i) {
@@ -169,11 +180,26 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if(event.getX() < gameView.getScreenWidth()/15 && event.getY() < gameView.getScreenWidth()/15) {
-            Intent intent = new Intent(this, MenuActivity.class);
-            startActivity(intent);
+    public void onClick(View v) {
+//        if (event.getX() < gameView.getScreenWidth() / 15 && event.getY() < gameView.getScreenWidth() / 15) {
+////            Intent intent = new Intent(this, MenuActivity.class);
+////            startActivity(intent);
+//            if (paused)
+//                gameView.resume();
+//            else
+//                gameView.pause();
+//        }
+
+        switch(v.getId()) {
+            case R.id.btnPause :
+                if (paused) {
+                    gameView.resume();
+                    paused = false;
+                } else {
+                    gameView.pause();
+                    paused = true;
+                }
+                break;
         }
-        return false;
     }
 }
