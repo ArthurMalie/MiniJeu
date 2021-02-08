@@ -322,7 +322,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 //            canvas.drawOval((float) (x - playerSize / 6.25), (float) (y + playerSize / 1.5), (float) (x + playerSize / 6.25), (float) (y + playerSize / 1.16), paint);
 
             // murs de la map
-            paint.setColor(Color.rgb(15, 128, 0));//255, 115, 0));
+            paint.setColor(Color.rgb(150,125,100));
             if (map != null) {
                 for (Wall wall : map.getWalls()) {
                     canvas.drawRect(
