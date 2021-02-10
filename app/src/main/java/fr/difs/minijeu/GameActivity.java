@@ -109,7 +109,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                                     double top = Double.parseDouble(parser.getAttributeValue(null, "top"));
                                     double right = Double.parseDouble(parser.getAttributeValue(null, "right"));
                                     double bottom = Double.parseDouble(parser.getAttributeValue(null, "bottom"));
-                                    walls.add(new Wall(left, top, right, bottom));
+                                    String strNight = parser.getAttributeValue(null, "light");
+                                    boolean night = false;
+                                    if (strNight.equals("night"))
+                                        night = true;
+                                    walls.add(new Wall(left, top, right, bottom, night));
                                 }
                                 eventType = parser.next();
                             }
@@ -175,7 +179,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             gameView.move(event.values[0], event.values[1]);
         }
         if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-            gameView.setLight(event.values[0]);
+            gameView.setLight((int) event.values[0]);
         }
     }
 

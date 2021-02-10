@@ -15,6 +15,7 @@
     <!ATTLIST wall top CDATA #REQUIRED>
     <!ATTLIST wall right CDATA #REQUIRED>
     <!ATTLIST wall bottom CDATA #REQUIRED>
+    <!ATTLIST wall light CDATA #REQUIRED>
     <!ATTLIST entity x CDATA #REQUIRED>
     <!ATTLIST entity y CDATA #REQUIRED>
     <!ATTLIST entity type CDATA #REQUIRED>
@@ -26,10 +27,11 @@
 
     <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
+            <wall left="0" top="0" right="20" bottom="0.01" light="day"/>
+            <wall left="0" top="0" right="0.01" bottom="32" light="day"/>
+            <wall left="0" top="31.99" right="20" bottom="32" light="day"/>
+            <wall left="19.99" top="0" right="20" bottom="32" light="day"/>
+            <wall left="5" top="15" right="15" bottom="17" light="night"/>
         </walls>
         <entities>
         </entities>
@@ -37,19 +39,19 @@
 
     <map level="1" spawnX="3" spawnY="3" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="1"/>
-            <wall left="0" top="0" right="1" bottom="32"/>
-            <wall left="0" top="31" right="20" bottom="32"/>
-            <wall left="19" top="0" right="20" bottom="32"/>
-            <wall left="6" top="0" right="8" bottom="26"/>
-            <wall left="1" top="6" right="4" bottom="8"/>
-            <wall left="3" top="24" right="7" bottom="26"/>
-            <wall left="8" top="24" right="12" bottom="26"/>
-            <wall left="8" top="12" right="12" bottom="14"/>
-            <wall left="15" top="12" right="19" bottom="14"/>
-            <wall left="15" top="24" right="19" bottom="26"/>
-            <wall left="10" top="7" right="17" bottom="8"/>
-            <wall left="10" top="18" right="17" bottom="20"/>
+            <wall left="0" top="0" right="20" bottom="1" light="day"/>
+            <wall left="0" top="0" right="1" bottom="32" light="day"/>
+            <wall left="0" top="31" right="20" bottom="32" light="day"/>
+            <wall left="19" top="0" right="20" bottom="32" light="day"/>
+            <wall left="6" top="0" right="8" bottom="26" light="day"/>
+            <wall left="1" top="6" right="4" bottom="8" light="day"/>
+            <wall left="3" top="24" right="7" bottom="26" light="day"/>
+            <wall left="8" top="24" right="12" bottom="26" light="day"/>
+            <wall left="8" top="12" right="12" bottom="14" light="day"/>
+            <wall left="15" top="12" right="19" bottom="14" light="day"/>
+            <wall left="15" top="24" right="19" bottom="26" light="day"/>
+            <wall left="10" top="7" right="17" bottom="8" light="day"/>
+            <wall left="10" top="18" right="17" bottom="20" light="day"/>
         </walls>
         <entities>
             <entity x="13.5" y="5.5" size="2" type="win"/>
@@ -72,14 +74,14 @@
 
     <map level="2" spawnX="5" spawnY="10" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="1"/>
-            <wall left="0" top="0" right="1" bottom="32"/>
-            <wall left="0" top="31" right="20" bottom="32"/>
-            <wall left="19" top="0" right="20" bottom="32"/>
-            <wall left="9" top="0" right="11" bottom="14"/>
-            <wall left="9" top="17" right="11" bottom="29"/>
-            <wall left="4" top="14" right="16" bottom="15"/>
-            <wall left="4" top="16" right="16" bottom="17"/>
+            <wall left="0" top="0" right="20" bottom="1" light="day"/>
+            <wall left="0" top="0" right="1" bottom="32" light="day"/>
+            <wall left="0" top="31" right="20" bottom="32" light="day"/>
+            <wall left="19" top="0" right="20" bottom="32" light="day"/>
+            <wall left="9" top="0" right="11" bottom="14" light="day"/>
+            <wall left="9" top="17" right="11" bottom="29" light="day"/>
+            <wall left="4" top="14" right="16" bottom="15" light="day"/>
+            <wall left="4" top="16" right="16" bottom="17" light="day"/>
         </walls>
         <entities>
             <entity x="3" y="28.5" size="2.5" type="win"/>
@@ -128,197 +130,5 @@
             <entity x="18.5" y="27.5" size="1" type="hole"/>
         </entities>
     </map>
-
-
-    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
-        <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
-        </walls>
-        <entities>
-        </entities>
-    </map>
-    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
-        <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
-        </walls>
-        <entities>
-        </entities>
-    </map>
-    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
-        <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
-        </walls>
-        <entities>
-        </entities>
-    </map>
-    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
-        <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
-        </walls>
-        <entities>
-        </entities>
-    </map>
-    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
-        <walls>
-            <wall left="0" top="0" right="20" bottom="0.01"/>
-            <wall left="0" top="0" right="0.01" bottom="32"/>
-            <wall left="0" top="31.99" right="20" bottom="32"/>
-            <wall left="19.99" top="0" right="20" bottom="32"/>
-        </walls>
-        <entities>
-        </entities>
-    </map>
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
-<!--    <map level="0" spawnX="10" spawnY="15" playerSize="1.8">-->
-<!--        <walls>-->
-<!--            <wall left="0" top="0" right="20" bottom="0.01"/>-->
-<!--            <wall left="0" top="0" right="0.01" bottom="32"/>-->
-<!--            <wall left="0" top="31.99" right="20" bottom="32"/>-->
-<!--            <wall left="19.99" top="0" right="20" bottom="32"/>-->
-<!--        </walls>-->
-<!--        <entities>-->
-<!--        </entities>-->
-<!--    </map>-->
 
 </maps>

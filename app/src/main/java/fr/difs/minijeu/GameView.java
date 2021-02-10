@@ -45,7 +45,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private double xSpeed;
     private double ySpeed;
     // Luminosité
-    private double light;
+    private int light;
     // Score actuel du joueur
     private double score;
     // Dimensions de l'écran
@@ -175,7 +175,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-    public void setLight(double light) {
+    public void setLight(int light) {
         this.light = light;
     }
 
@@ -225,7 +225,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void end(boolean win) {
         handler.removeCallbacks(compteur);
         thread.setRunning(false);
-        ((GameActivity) getContext()).endGame(score/100, win);
+        ((GameActivity) getContext()).endGame(score / 100, win);
     }
 
     public void pause() {
@@ -328,14 +328,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 //            canvas.drawOval((float) (x - playerSize / 6.25), (float) (y + playerSize / 1.5), (float) (x + playerSize / 6.25), (float) (y + playerSize / 1.16), paint);
 
             // murs de la map
-            paint.setColor(Color.rgb(150,125,100));
+            paint.setColor(Color.rgb(150, 125, 100));
             if (map != null) {
                 for (Wall wall : map.getWalls()) {
-                    canvas.drawRect(
-                            (float) wall.getLeft(),
-                            (float) wall.getTop(),
-                            (float) wall.getRight(),
-                            (float) wall.getBottom(), paint);
+                    if (light < 10 && wall.isNight()
+                            || light >= 10 && !wall.isNight())
+                        canvas.drawRect(
+                                (float) wall.getLeft(),
+                                (float) wall.getTop(),
+                                (float) wall.getRight(),
+                                (float) wall.getBottom(), paint);
                 }
             }
 
@@ -343,7 +345,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.WHITE);
             paint.setTextSize(screenHeight / 16);
             paint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText((int)score/100 + "", screenWidth / 2, 80, paint);
+            canvas.drawText((int) score / 100 + "", screenWidth / 2, 80, paint);
 
             if (ACCELEROMETER_DEBUG_MODE) {
                 paint.setTextSize(15);
