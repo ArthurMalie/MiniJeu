@@ -51,9 +51,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
 
-        // Accelerometer
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        // Accelerometer
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        // Light sensor
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Récupération du niveau à charger mapLevel
         mapLevel = getIntent().getIntExtra("LEVEL", 1);
@@ -172,6 +174,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             gameView.move(event.values[0], event.values[1]);
         }
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            gameView.setLight(event.values[0]);
+        }
     }
 
     @Override
@@ -190,8 +195,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 //                gameView.pause();
 //        }
 
-        switch(v.getId()) {
-            case R.id.btnPause :
+        switch (v.getId()) {
+            case R.id.btnPause:
                 if (paused) {
                     gameView.resume();
                     paused = false;

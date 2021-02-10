@@ -30,7 +30,7 @@ import fr.difs.minijeu.mapping.entities.WinBonus;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private final boolean ACCELEROMETER_DEBUG_MODE = false;
+    private final boolean ACCELEROMETER_DEBUG_MODE = true;
     // Vitesse du joueur (multiplicateur)
     private final double SPEED = 4;
 
@@ -44,6 +44,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // Vitesse actuelle du joueur
     private double xSpeed;
     private double ySpeed;
+    // Luminosité
+    private double light;
     // Score actuel du joueur
     private double score;
     // Dimensions de l'écran
@@ -171,6 +173,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             end(false);
         }
 
+    }
+
+    public void setLight(double light) {
+        this.light = light;
     }
 
     public void move(double x, double y) {
@@ -342,7 +348,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (ACCELEROMETER_DEBUG_MODE) {
                 paint.setTextSize(15);
                 paint.setColor(Color.GREEN);
-                canvas.drawText("x : " + xSpeed, 3 * (screenWidth / 4), 100, paint);
+                canvas.drawText("light : " + light, 3 * (screenWidth / 4), 100, paint);
                 canvas.drawText("y : " + ySpeed, 3 * (screenWidth / 4), 125, paint);
                 canvas.drawCircle(screenWidth / 2, screenHeight / 2, 2, paint);
                 canvas.drawLine(
