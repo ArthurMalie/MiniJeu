@@ -157,7 +157,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // Quand le joueur touche un bord de l'écran, on passe à l'activité de fin de partie
-    public void endGame(int score, boolean win) {
+    public void endGame(double score, boolean win) {
         Intent intent = new Intent(this, EndActivity.class);
         // On lui passe la variable score
         intent.putExtra("SCORE", String.valueOf(score));

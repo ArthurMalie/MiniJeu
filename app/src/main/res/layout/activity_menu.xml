@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#000000"
         android:orientation="vertical">
 
         <Space
@@ -19,6 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="CRAZY LABYRINTH"
+            android:textColor="?colorPrimary"
             android:textSize="50sp"
             android:textStyle="bold|italic"
             android:typeface="serif" />

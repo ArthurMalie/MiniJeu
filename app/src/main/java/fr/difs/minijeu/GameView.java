@@ -45,7 +45,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private double xSpeed;
     private double ySpeed;
     // Score actuel du joueur
-    private int score;
+    private double score;
     // Dimensions de l'écran
     private int screenWidth;
     private int screenHeight;
@@ -337,7 +337,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.WHITE);
             paint.setTextSize(screenHeight / 16);
             paint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(score/100 + "", screenWidth / 2, 80, paint);
+            canvas.drawText((int)score/100 + "", screenWidth / 2, 80, paint);
 
             if (ACCELEROMETER_DEBUG_MODE) {
                 paint.setTextSize(15);
