@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,13 +37,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private GameView gameView;
     private SensorManager sensorManager;
     private int mapLevel;
-    private boolean paused;
+
+    private Button btnPause;
+    private Button btnResume;
+    private Button btnRetry;
+    private Button btnMenu;
+    private ImageView blackFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        paused = false;
 
         // Préparation de la fenêtre
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -81,8 +85,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             gameLayout.addView(gameView);
         }
 
-        Button btnPause = findViewById(R.id.btnPause);
+        btnPause = findViewById(R.id.btnPause);
+        btnResume = findViewById(R.id.btnResume);
+        btnRetry = findViewById(R.id.btnRetry);
+        btnMenu = findViewById(R.id.btnMainMenu);
+        blackFilter = findViewById(R.id.blackFilter);
+
         btnPause.setOnClickListener(this);
+        btnResume.setOnClickListener(this);
+        btnRetry.setOnClickListener(this);
+        btnMenu.setOnClickListener(this);
+
     }
 
     private Map parseXml(XmlResourceParser parser, int i) {
@@ -190,24 +203,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-//        if (event.getX() < gameView.getScreenWidth() / 15 && event.getY() < gameView.getScreenWidth() / 15) {
-////            Intent intent = new Intent(this, MenuActivity.class);
-////            startActivity(intent);
-//            if (paused)
-//                gameView.resume();
-//            else
-//                gameView.pause();
-//        }
-
         switch (v.getId()) {
             case R.id.btnPause:
-                if (paused) {
-                    gameView.resume();
-                    paused = false;
-                } else {
-                    gameView.pause();
-                    paused = true;
-                }
+                gameView.pause();
+                btnPause.setVisibility(View.GONE);
+                btnResume.setVisibility(View.VISIBLE);
+                btnRetry.setVisibility(View.VISIBLE);
+                btnMenu.setVisibility(View.VISIBLE);
+                blackFilter.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btnResume:
+                gameView.resume();
+                btnPause.setVisibility(View.VISIBLE);
+                btnResume.setVisibility(View.GONE);
+                btnRetry.setVisibility(View.GONE);
+                btnMenu.setVisibility(View.GONE);
+                blackFilter.setVisibility(View.GONE);
+                break;
+            case R.id.btnRetry:
+                // On relance une partie
+                Intent intent = new Intent(this, GameActivity.class);
+                intent.putExtra("LEVEL", mapLevel);
+                startActivity(intent);
+                break;
+            case R.id.btnMainMenu:
+                intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
                 break;
         }
     }

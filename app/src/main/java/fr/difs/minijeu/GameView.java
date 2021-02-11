@@ -332,7 +332,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (map != null) {
                 for (Wall wall : map.getWalls()) {
                     if (light < 10 && wall.isNight()
-                            || light >= 10 && !wall.isNight())
+                            || !wall.isNight())
                         canvas.drawRect(
                                 (float) wall.getLeft(),
                                 (float) wall.getTop(),

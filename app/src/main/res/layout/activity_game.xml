@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,6 +13,7 @@
             android:id="@+id/btnPause"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_weight=".70"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:paddingBottom="12dp"
@@ -20,6 +22,60 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
+
+        <ImageView
+            android:id="@+id/blackFilter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/blackfilter"
+            android:visibility="gone" />
+
+        <Space
+            android:id="@+id/space1"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+
+        <Button
+            android:id="@+id/btnResume"
+            android:layout_centerInParent="true"
+            android:layout_width="500dp"
+            android:layout_height="70dp"
+            android:layout_below="@+id/space1"
+            android:text="Reprendre"
+            android:textSize="25dp"
+            android:visibility="gone"/>
+
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/btnResume"/>
+
+        <Button
+            android:id="@+id/btnRetry"
+            android:layout_centerInParent="true"
+            android:layout_width="500dp"
+            android:layout_height="70dp"
+            android:layout_below="@+id/space2"
+            android:text="Recommencer"
+            android:textSize="25dp"
+            android:visibility="gone"/>
+
+        <Space
+            android:id="@+id/space3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/btnRetry"/>
+
+        <Button
+            android:id="@+id/btnMainMenu"
+            android:layout_centerInParent="true"
+            android:layout_width="500dp"
+            android:layout_height="70dp"
+            android:layout_below="@+id/space3"
+            android:text="Menu Principal"
+            android:textSize="25dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </LinearLayout>
