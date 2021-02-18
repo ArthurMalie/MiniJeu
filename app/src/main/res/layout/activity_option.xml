@@ -40,12 +40,8 @@
                 android:layout_weight="1"
                 android:text="Debug Mode"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="20sp" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textSize="20sp"
+                android:paddingRight="10dp"/>
 
             <Button
                 android:id="@+id/btnDebug"
@@ -58,7 +54,34 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="70dp" />
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unlock Mode"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp"
+                android:paddingRight="10dp" />
+
+            <Button
+                android:id="@+id/btnUnlockAll"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:text="null"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -109,7 +132,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="70dp" />
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -136,15 +159,34 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="10dp" />
 
-        <Button
-            android:id="@+id/btnResetScores"
-            android:layout_width="130dp"
-            android:layout_height="60dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Reinitialiser scores"
-            android:textSize="10sp" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnResetScores"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:backgroundTint="?colorPrimaryVariant"
+                android:layout_marginRight="20dp"
+                android:text="Reinitialiser scores"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnResetUnlocks"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:backgroundTint="?colorPrimaryVariant"
+                android:text="Reinitialiser progression"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"

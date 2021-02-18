@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.Map;
 
@@ -19,7 +20,15 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
     private SharedPreferences optionPrefs;
     private SharedPreferences scorePrefs;
+    private SharedPreferences unlockPrefs;
+
     private Button btnDebug;
+    private Button btnUnlock;
+    private Button btnResetScores;
+    private Button btnResetUnlocks;
+    private Button btnCalibAccel;
+    private Button btnCalibLight;
+
     private TextView txtSpeed;
 
     private SensorManager sensorManager;
@@ -35,6 +44,7 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
         optionPrefs = getSharedPreferences("OptionsPreferences", MODE_PRIVATE);
         scorePrefs = getSharedPreferences("ScorePreferences", MODE_PRIVATE);
+        unlockPrefs = getSharedPreferences("UnlockPreferences", MODE_PRIVATE);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Accelerometer
@@ -46,21 +56,27 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
         txtSpeed = findViewById(R.id.txtSpeed);
 
         btnDebug = findViewById(R.id.btnDebug);
+        btnUnlock = findViewById(R.id.btnUnlockAll);
         Button btnPlus = findViewById(R.id.btnVitessePlus);
         Button btnMoins = findViewById(R.id.btnVitesseMoins);
         Button btnMenu = findViewById(R.id.btnOptionsMenu);
-        Button btnCalibAccel = findViewById(R.id.btnCalibrerAccel);
-        Button btnCalibLight = findViewById(R.id.btnCalibrerLight);
-        Button btnReset = findViewById(R.id.btnResetScores);
+        btnCalibAccel = findViewById(R.id.btnCalibrerAccel);
+        btnCalibLight = findViewById(R.id.btnCalibrerLight);
+        btnResetScores = findViewById(R.id.btnResetScores);
+        btnResetUnlocks = findViewById(R.id.btnResetUnlocks);
+
         btnDebug.setOnClickListener(this);
+        btnUnlock.setOnClickListener(this);
         btnPlus.setOnClickListener(this);
         btnMoins.setOnClickListener(this);
         btnMenu.setOnClickListener(this);
         btnCalibAccel.setOnClickListener(this);
         btnCalibLight.setOnClickListener(this);
-        btnReset.setOnClickListener(this);
+        btnResetScores.setOnClickListener(this);
+        btnResetUnlocks.setOnClickListener(this);
 
         refreshDebug();
+        refreshUnlock();
         refreshSpeed();
     }
 
@@ -68,11 +84,17 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         SharedPreferences.Editor optionsEditor = optionPrefs.edit();
         SharedPreferences.Editor scoreEditor = scorePrefs.edit();
+        SharedPreferences.Editor unlocksEditor = unlockPrefs.edit();
         switch (v.getId()) {
             case R.id.btnDebug:
                 optionsEditor.putBoolean("debug_mode", !optionPrefs.getBoolean("debug_mode", false));
                 optionsEditor.apply();
                 refreshDebug();
+                break;
+            case R.id.btnUnlockAll:
+                optionsEditor.putBoolean("unlock_mode", !optionPrefs.getBoolean("unlock_mode", false));
+                optionsEditor.apply();
+                refreshUnlock();
                 break;
             case R.id.btnVitessePlus:
                 float speed1 = optionPrefs.getFloat("speed", 1);
@@ -94,14 +116,22 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
                 optionsEditor.putFloat("xSpeed", xSpeed);
                 optionsEditor.putFloat("ySpeed", ySpeed);
                 optionsEditor.apply();
+                btnCalibAccel.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_dark, null));
                 break;
             case R.id.btnCalibrerLight:
                 optionsEditor.putFloat("light", light);
                 optionsEditor.apply();
+                btnCalibLight.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_dark, null));
                 break;
             case R.id.btnResetScores:
                 scoreEditor.clear();
                 scoreEditor.apply();
+                btnResetScores.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_variant_dark, null));
+                break;
+            case R.id.btnResetUnlocks:
+                unlocksEditor.clear();
+                unlocksEditor.apply();
+                btnResetUnlocks.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_variant_dark, null));
                 break;
             case R.id.btnOptionsMenu:
                 Intent intent = new Intent(this, MenuActivity.class);
@@ -111,11 +141,26 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+
     private void refreshDebug() {
-        if (optionPrefs.getBoolean("debug_mode", false))
+        if (optionPrefs.getBoolean("debug_mode", false)) {
             btnDebug.setText("ON");
-        else
+            btnDebug.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_light, null));
+        } else {
             btnDebug.setText("OFF");
+            btnDebug.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_dark, null));
+        }
+    }
+
+    private void refreshUnlock() {
+        if (optionPrefs.getBoolean("unlock_mode", false)) {
+            btnUnlock.setText("ON");
+            btnUnlock.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_light, null));
+
+        } else {
+            btnUnlock.setText("OFF");
+            btnUnlock.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_dark, null));
+        }
     }
 
     private void refreshSpeed() {
