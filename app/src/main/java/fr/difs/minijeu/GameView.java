@@ -1,6 +1,7 @@
 package fr.difs.minijeu;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -30,9 +31,9 @@ import fr.difs.minijeu.mapping.entities.WinBonus;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private final boolean ACCELEROMETER_DEBUG_MODE = true;
+    private boolean acceleratorDebugMode;
     // Vitesse du joueur (multiplicateur)
-    private final double SPEED = 4;
+    private float speed;
 
     // Niveau sur lequel la partie va s'effectuer (contient les murs et les entités)
     private Map map;
@@ -70,6 +71,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         wm.getDefaultDisplay().getRealMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
+
+        // Récupération des SharedPreferences
+        acceleratorDebugMode = context.getSharedPreferences("OptionsPreferences", Context.MODE_PRIVATE).getBoolean("debug_mode", false);
+        speed = context.getSharedPreferences("OptionsPreferences", Context.MODE_PRIVATE).getFloat("speed", 1);
 
         // Image de la bille
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
@@ -169,7 +174,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score et false (perdu) à l'activité de fin de jeu.
         if ((x <= playerSize || y <= playerSize || x >= screenWidth - playerSize || y >= screenHeight - playerSize)
-                && !ACCELEROMETER_DEBUG_MODE) {
+                && !acceleratorDebugMode) {
             end(false);
         }
 
@@ -180,8 +185,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void move(double x, double y) {
-        xSpeed = -x * SPEED;
-        ySpeed = y * SPEED;
+        xSpeed = -x * speed;
+        ySpeed = y * speed;
         if (xSpeed > playerSize)
             xSpeed = playerSize;
         if (ySpeed > playerSize)
@@ -347,22 +352,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText((int) score / 100 + "", screenWidth / 2, 80, paint);
 
-            if (ACCELEROMETER_DEBUG_MODE) {
+            if (acceleratorDebugMode) {
                 paint.setTextSize(15);
                 paint.setColor(Color.GREEN);
                 canvas.drawText("light : " + light, 3 * (screenWidth / 4), 100, paint);
                 canvas.drawText("y : " + ySpeed, 3 * (screenWidth / 4), 125, paint);
                 canvas.drawCircle(screenWidth / 2, screenHeight / 2, 2, paint);
                 canvas.drawLine(
-                        (float) ((screenWidth / 2) - 50 + xSpeed / SPEED * 30),
-                        (float) ((screenHeight / 2) + ySpeed / SPEED * 30),
-                        (float) ((screenWidth / 2) + 50 + xSpeed / SPEED * 30),
-                        (float) ((screenHeight / 2) + ySpeed / SPEED * 30), paint);
+                        (float) ((screenWidth / 2) - 50 + xSpeed / speed * 30),
+                        (float) ((screenHeight / 2) + ySpeed / speed * 30),
+                        (float) ((screenWidth / 2) + 50 + xSpeed / speed * 30),
+                        (float) ((screenHeight / 2) + ySpeed / speed * 30), paint);
                 canvas.drawLine(
-                        (float) ((screenWidth / 2) + xSpeed / SPEED * 30),
-                        (float) ((screenHeight / 2) - 50 + ySpeed / SPEED * 30),
-                        (float) ((screenWidth / 2) + xSpeed / SPEED * 30),
-                        (float) ((screenHeight / 2) + 50 + ySpeed / SPEED * 30), paint);
+                        (float) ((screenWidth / 2) + xSpeed / speed * 30),
+                        (float) ((screenHeight / 2) - 50 + ySpeed / speed * 30),
+                        (float) ((screenWidth / 2) + xSpeed / speed * 30),
+                        (float) ((screenHeight / 2) + 50 + ySpeed / speed * 30), paint);
                 canvas.drawText(System.currentTimeMillis() - time + " Hz", screenWidth - 75, 30, paint);
                 time = System.currentTimeMillis();
             }

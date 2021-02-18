@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,19 +17,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnPlay;
     private Button btnLevelSelect;
+    private Button btnOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_menu);
         btnPlay = findViewById(R.id.btnPlay);
         btnLevelSelect = findViewById(R.id.btnLevelSelect);
+        btnOption = findViewById(R.id.btnOptions);
         btnPlay.setOnClickListener(this);
         btnLevelSelect.setOnClickListener(this);
+        btnOption.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +44,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnLevelSelect:
                 // Choix du niveau
                 intent = new Intent(this, LevelSelectActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnOptions:
+                // Menu des options
+                intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
                 break;
         }
