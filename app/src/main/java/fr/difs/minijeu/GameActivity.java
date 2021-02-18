@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnResume;
     private Button btnRetry;
     private Button btnMenu;
-    private ImageView blackFilter;
+    private Button btnBlackFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         btnResume = findViewById(R.id.btnResume);
         btnRetry = findViewById(R.id.btnRetry);
         btnMenu = findViewById(R.id.btnMainMenu);
-        blackFilter = findViewById(R.id.blackFilter);
+        btnBlackFilter = findViewById(R.id.btnBlackFilter);
 
         btnPause.setOnClickListener(this);
         btnResume.setOnClickListener(this);
@@ -206,7 +206,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 btnResume.setVisibility(View.VISIBLE);
                 btnRetry.setVisibility(View.VISIBLE);
                 btnMenu.setVisibility(View.VISIBLE);
-                blackFilter.setVisibility(View.VISIBLE);
+                btnBlackFilter.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnResume:
                 gameView.resume();
@@ -214,7 +214,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 btnResume.setVisibility(View.GONE);
                 btnRetry.setVisibility(View.GONE);
                 btnMenu.setVisibility(View.GONE);
-                blackFilter.setVisibility(View.GONE);
+                btnBlackFilter.setVisibility(View.GONE);
                 break;
             case R.id.btnRetry:
                 // On relance une partie

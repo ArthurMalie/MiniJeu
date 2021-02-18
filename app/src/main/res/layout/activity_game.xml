@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/gameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gameLayout">
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnBlackFilter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#46000000"
+            android:text="PAUSE\n\n\n\n\n\n\n\n\n\n\n"
+            android:textColor="?colorPrimary"
+            android:textSize="50sp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnPause"
@@ -15,8 +26,8 @@
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:paddingBottom="12dp"
             android:fontFamily="sans-serif-black"
+            android:paddingBottom="12dp"
             android:text="||"
             android:textSize="40sp"
             android:textStyle="bold" />
@@ -26,8 +37,9 @@
             android:id="@+id/blackFilter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/blackfilter"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/blackfilter" />
+
 
         <Space
             android:id="@+id/space1"
@@ -36,45 +48,45 @@
 
         <Button
             android:id="@+id/btnResume"
-            android:layout_centerInParent="true"
             android:layout_width="500dp"
             android:layout_height="70dp"
             android:layout_below="@+id/space1"
+            android:layout_centerInParent="true"
             android:text="Reprendre"
             android:textSize="25dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Space
             android:id="@+id/space2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/btnResume"/>
+            android:layout_below="@+id/btnResume" />
 
         <Button
             android:id="@+id/btnRetry"
-            android:layout_centerInParent="true"
             android:layout_width="500dp"
             android:layout_height="70dp"
             android:layout_below="@+id/space2"
+            android:layout_centerInParent="true"
             android:text="Recommencer"
             android:textSize="25dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Space
             android:id="@+id/space3"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/btnRetry"/>
+            android:layout_below="@+id/btnRetry" />
 
         <Button
             android:id="@+id/btnMainMenu"
-            android:layout_centerInParent="true"
             android:layout_width="500dp"
             android:layout_height="70dp"
             android:layout_below="@+id/space3"
+            android:layout_centerInParent="true"
             android:text="Menu Principal"
             android:textSize="25dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 </LinearLayout>
