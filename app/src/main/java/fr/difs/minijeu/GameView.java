@@ -193,8 +193,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void move(double x, double y) {
-        xSpeed = -(x + defaultX)  * speed;
-        ySpeed = (y + defaultY) * speed;
+        xSpeed = -(x - defaultX)  * speed;
+        ySpeed = (y - defaultY) * speed;
         if (xSpeed > playerSize)
             xSpeed = playerSize;
         if (ySpeed > playerSize)
@@ -238,7 +238,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void end(boolean win) {
         handler.removeCallbacks(compteur);
         thread.setRunning(false);
-        ((GameActivity) getContext()).endGame(score / 100, win);
+        ((GameActivity) getContext()).endGame((float) (score / 100), win);
     }
 
     public void pause() {
@@ -354,19 +354,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
 
-            // score
+            // HUD
             paint.setColor(Color.WHITE);
             paint.setTextSize(screenHeight / 16);
-            paint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText((int) score / 100 + "", screenWidth / 2, 80, paint);
+            paint.setTextAlign(Paint.Align.RIGHT);
+            canvas.drawText((int) score / 100 + "", screenWidth - 25, 80, paint);
 
             if (debugMode) {
                 paint.setTextSize(15);
                 paint.setColor(Color.GREEN);
-                canvas.drawText("light : " + light, 3 * (screenWidth / 4), 75, paint);
-                canvas.drawText("defLight : " + defaultLight, 3 * (screenWidth / 4), 100, paint);
-                canvas.drawText("defX : " + defaultX, 3 * (screenWidth / 4), 125, paint);
-                canvas.drawText("defY : " + defaultY, 3 * (screenWidth / 4), 150, paint);
+                canvas.drawText(System.currentTimeMillis() - time + " Hz", screenWidth - 25, 15, paint);
+                canvas.drawText("light : " + light, screenWidth - 25, 125, paint);
+                canvas.drawText("defLight : " + defaultLight, screenWidth - 25, 150, paint);
+                canvas.drawText("X : " + xSpeed, screenWidth - 25, 175, paint);
+                canvas.drawText("Y : " + ySpeed, screenWidth - 25, 200, paint);
+                canvas.drawText("defX : " + defaultX, screenWidth - 25, 225, paint);
+                canvas.drawText("defY : " + defaultY, screenWidth - 25, 250, paint);
+                // croix accelerometre
                 canvas.drawCircle(screenWidth / 2, screenHeight / 2, 2, paint);
                 canvas.drawLine(
                         (float) ((screenWidth / 2) - 50 + xSpeed / speed * 30),
@@ -378,7 +382,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         (float) ((screenHeight / 2) - 50 + ySpeed / speed * 30),
                         (float) ((screenWidth / 2) + xSpeed / speed * 30),
                         (float) ((screenHeight / 2) + 50 + ySpeed / speed * 30), paint);
-                canvas.drawText(System.currentTimeMillis() - time + " Hz", screenWidth - 75, 30, paint);
                 time = System.currentTimeMillis();
             }
         }

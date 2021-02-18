@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Map;
+
 public class OptionActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
 
-    private SharedPreferences sharedPref;
+    private SharedPreferences optionPrefs;
+    private SharedPreferences scorePrefs;
     private Button btnDebug;
     private TextView txtSpeed;
 
@@ -30,7 +33,8 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
 
-        sharedPref = getSharedPreferences("OptionsPreferences", MODE_PRIVATE);
+        optionPrefs = getSharedPreferences("OptionsPreferences", MODE_PRIVATE);
+        scorePrefs = getSharedPreferences("ScorePreferences", MODE_PRIVATE);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Accelerometer
@@ -47,12 +51,14 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
         Button btnMenu = findViewById(R.id.btnOptionsMenu);
         Button btnCalibAccel = findViewById(R.id.btnCalibrerAccel);
         Button btnCalibLight = findViewById(R.id.btnCalibrerLight);
+        Button btnReset = findViewById(R.id.btnResetScores);
         btnDebug.setOnClickListener(this);
         btnPlus.setOnClickListener(this);
         btnMoins.setOnClickListener(this);
         btnMenu.setOnClickListener(this);
         btnCalibAccel.setOnClickListener(this);
         btnCalibLight.setOnClickListener(this);
+        btnReset.setOnClickListener(this);
 
         refreshDebug();
         refreshSpeed();
@@ -60,54 +66,60 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor optionsEditor = optionPrefs.edit();
+        SharedPreferences.Editor scoreEditor = scorePrefs.edit();
         switch (v.getId()) {
             case R.id.btnDebug:
-                editor.putBoolean("debug_mode", !sharedPref.getBoolean("debug_mode", false));
-                editor.apply();
+                optionsEditor.putBoolean("debug_mode", !optionPrefs.getBoolean("debug_mode", false));
+                optionsEditor.apply();
                 refreshDebug();
                 break;
             case R.id.btnVitessePlus:
-                float speed1 = sharedPref.getFloat("speed", 1);
+                float speed1 = optionPrefs.getFloat("speed", 1);
                 if (speed1 < 10) {
-                    editor.putFloat("speed", speed1 + .25f);
-                    editor.apply();
+                    optionsEditor.putFloat("speed", speed1 + .25f);
+                    optionsEditor.apply();
                     refreshSpeed();
                 }
                 break;
             case R.id.btnVitesseMoins:
-                float speed2 = sharedPref.getFloat("speed", 1);
+                float speed2 = optionPrefs.getFloat("speed", 1);
                 if (speed2 > 0) {
-                    editor.putFloat("speed", speed2 - .25f);
-                    editor.apply();
+                    optionsEditor.putFloat("speed", speed2 - .25f);
+                    optionsEditor.apply();
                     refreshSpeed();
                 }
                 break;
             case R.id.btnCalibrerAccel:
-                editor.putFloat("xSpeed", xSpeed);
-                editor.putFloat("ySpeed", ySpeed);
-                editor.apply();
+                optionsEditor.putFloat("xSpeed", xSpeed);
+                optionsEditor.putFloat("ySpeed", ySpeed);
+                optionsEditor.apply();
                 break;
             case R.id.btnCalibrerLight:
-                editor.putFloat("light", light);
-                editor.apply();
+                optionsEditor.putFloat("light", light);
+                optionsEditor.apply();
+                break;
+            case R.id.btnResetScores:
+                scoreEditor.clear();
+                scoreEditor.apply();
                 break;
             case R.id.btnOptionsMenu:
                 Intent intent = new Intent(this, MenuActivity.class);
                 startActivity(intent);
                 break;
+
         }
     }
 
     private void refreshDebug() {
-        if (sharedPref.getBoolean("debug_mode", false))
+        if (optionPrefs.getBoolean("debug_mode", false))
             btnDebug.setText("ON");
         else
             btnDebug.setText("OFF");
     }
 
     private void refreshSpeed() {
-        txtSpeed.setText(sharedPref.getFloat("speed", 1) + "");
+        txtSpeed.setText(optionPrefs.getFloat("speed", 1) + "");
     }
 
     @Override

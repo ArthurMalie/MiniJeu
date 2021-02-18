@@ -45,36 +45,13 @@ public class CustomGridViewAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.single_level, null);
         ImageView icon = (ImageView) view.findViewById(R.id.item_image); // get the reference of ImageView
         icon.setImageResource(R.drawable.woodenframe); // set logo images
-        TextView txtTitle = (TextView) view.findViewById(R.id.item_text);
-        txtTitle.setText(levels.get(position).getLevel()+"");
+        TextView txtTitle = (TextView) view.findViewById(R.id.item_text); // number of the level
+        txtTitle.setText(levels.get(position).getLevel() + "");
+        TextView txtScore = (TextView) view.findViewById(R.id.item_score); // highscore of the level
+        float score = levels.get(position).getScore();
+        if (score > 0f)
+            txtScore.setText(score + "s");
+
         return view;
-
-
-
-
-//        RecordHolder holder = null;
-//        if (row == null) {
-//            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-//            row = inflater.inflate(resourceId, parent, false);
-//
-//            holder = new RecordHolder();
-//            holder.txtTitle = (TextView) row.findViewById(R.id.item_text);
-//            holder.imageItem = (ImageView) row.findViewById(R.id.item_image);
-//            row.setTag(holder);
-//        } else {
-//            holder = (RecordHolder) row.getTag();
-//        }
-//
-//        CustomGridViewItem item = levels.get(position);
-//        holder.txtTitle.setText(item.getLevel());
-//        holder.imageItem.setImageBitmap(item.getImage());
-//        return row;
-
-    }
-
-    static class RecordHolder {
-        TextView txtTitle;
-        ImageView imageItem;
-
     }
 }

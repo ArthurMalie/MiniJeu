@@ -1,6 +1,7 @@
 package fr.difs.minijeu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.view.View;
@@ -55,11 +56,13 @@ public class LevelSelectActivity extends AppCompatActivity {
 
     private void parseXml(XmlResourceParser parser) {
         int eventType = -1;
-
+        SharedPreferences sharedPreferences = getSharedPreferences("ScorePreferences", MODE_PRIVATE);
         try {
             while (eventType != parser.END_DOCUMENT) {
                 if (eventType == parser.START_TAG && parser.getName().equals("map")) {
-                    gridLevels.add(new CustomGridViewItem(Integer.valueOf(parser.getAttributeValue(null, "level")), 0));
+                    int level = Integer.valueOf(parser.getAttributeValue(null, "level"));
+                    float score = sharedPreferences.getFloat(level + "", 0);
+                    gridLevels.add(new CustomGridViewItem( level, score));
                 }
                 eventType = parser.next();
             }

@@ -4,9 +4,9 @@ package fr.difs.minijeu;
 public class CustomGridViewItem {
 
     private int level;
-    private int score;
+    private float score;
 
-    public CustomGridViewItem(int level, int score) {
+    public CustomGridViewItem(int level, float score) {
         this.level = level;
         this.score = score;
     }
@@ -19,11 +19,11 @@ public class CustomGridViewItem {
         this.level = level;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 

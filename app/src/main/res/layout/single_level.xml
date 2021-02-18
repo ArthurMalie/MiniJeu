@@ -14,10 +14,22 @@
         android:id="@+id/item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
         android:textColor="?colorPrimary"
         android:textSize="80sp"
         android:textStyle="bold"></TextView>
+
+    <TextView
+        android:id="@+id/item_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="135dp"
+        android:textColor="?colorPrimaryVariant"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:text="No score">
+    </TextView>
 
 </RelativeLayout>
