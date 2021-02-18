@@ -27,30 +27,31 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="225dp" />
+            android:layout_height="109dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnPlay"
-            android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:backgroundTint="@android:color/holo_orange_light"
-            android:text="PLAY"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_width="182dp"
+            android:layout_height="135dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="32dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnLevelSelect"
-            android:layout_width="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="105dp"
             android:layout_gravity="center"
-            android:layout_height="60dp"
-            android:backgroundTint="@android:color/holo_orange_light"
-            android:text="Level select"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:adjustViewBounds="true"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/level" />
 
         <Space
             android:layout_width="match_parent"

@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -30,10 +29,15 @@ import fr.difs.minijeu.mapping.entities.WinBonus;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
+    // Shared preferences :
     // Mode debug : invincibilité des bords + croix de précision pour l'accelérometre + affichage de la fréquence de rafraichissement du jeu
-    private boolean acceleratorDebugMode;
+    private boolean debugMode;
     // Vitesse du joueur (multiplicateur)
     private float speed;
+    // Calibration de l'accelerometre et de la lumière ambiante
+    private float defaultX;
+    private float defaultY;
+    private float defaultLight;
 
     // Niveau sur lequel la partie va s'effectuer (contient les murs et les entités)
     private Map map;
@@ -73,8 +77,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         screenWidth = displayMetrics.widthPixels;
 
         // Récupération des SharedPreferences
-        acceleratorDebugMode = context.getSharedPreferences("OptionsPreferences", Context.MODE_PRIVATE).getBoolean("debug_mode", false);
-        speed = context.getSharedPreferences("OptionsPreferences", Context.MODE_PRIVATE).getFloat("speed", 1);
+        SharedPreferences sharedPrefs = context.getSharedPreferences("OptionsPreferences", Context.MODE_PRIVATE);
+        debugMode = sharedPrefs.getBoolean("debug_mode", false);
+        speed = sharedPrefs.getFloat("speed", 1);
+        defaultX = sharedPrefs.getFloat("xSpeed", 0);
+        defaultY = sharedPrefs.getFloat("ySpeed", 0);
+        defaultLight = sharedPrefs.getFloat("light", 5);
 
         // Image de la bille
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
@@ -174,19 +182,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         // Si le joueur touche un bord de l'écran, on stoppe le compteur, on arrête le GameThread et on appelle la méthode endGame qui passe le score et false (perdu) à l'activité de fin de jeu.
         if ((x <= playerSize || y <= playerSize || x >= screenWidth - playerSize || y >= screenHeight - playerSize)
-                && !acceleratorDebugMode) {
+                && !debugMode) {
             end(false);
         }
 
     }
 
     public void setLight(int light) {
-        this.light = light;
+        this.light = light ;
     }
 
     public void move(double x, double y) {
-        xSpeed = -x * speed;
-        ySpeed = y * speed;
+        xSpeed = -(x + defaultX)  * speed;
+        ySpeed = (y + defaultY) * speed;
         if (xSpeed > playerSize)
             xSpeed = playerSize;
         if (ySpeed > playerSize)
@@ -336,7 +344,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.rgb(150, 125, 100));
             if (map != null) {
                 for (Wall wall : map.getWalls()) {
-                    if (light < 10 && wall.isNight()
+                    if (light < defaultLight / 8 && wall.isNight()
                             || !wall.isNight())
                         canvas.drawRect(
                                 (float) wall.getLeft(),
@@ -352,11 +360,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText((int) score / 100 + "", screenWidth / 2, 80, paint);
 
-            if (acceleratorDebugMode) {
+            if (debugMode) {
                 paint.setTextSize(15);
                 paint.setColor(Color.GREEN);
-                canvas.drawText("light : " + light, 3 * (screenWidth / 4), 100, paint);
-                canvas.drawText("y : " + ySpeed, 3 * (screenWidth / 4), 125, paint);
+                canvas.drawText("light : " + light, 3 * (screenWidth / 4), 75, paint);
+                canvas.drawText("defLight : " + defaultLight, 3 * (screenWidth / 4), 100, paint);
+                canvas.drawText("defX : " + defaultX, 3 * (screenWidth / 4), 125, paint);
+                canvas.drawText("defY : " + defaultY, 3 * (screenWidth / 4), 150, paint);
                 canvas.drawCircle(screenWidth / 2, screenHeight / 2, 2, paint);
                 canvas.drawLine(
                         (float) ((screenWidth / 2) - 50 + xSpeed / speed * 30),

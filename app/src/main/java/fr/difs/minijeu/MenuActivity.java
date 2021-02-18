@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 // Activité d'accueil : bouton START
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnPlay;
-    private Button btnLevelSelect;
+    private ImageButton btnPlay;
+    private ImageButton btnLevelSelect;
     private Button btnOption;
 
     @Override

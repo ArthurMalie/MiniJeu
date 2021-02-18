@@ -2,20 +2,28 @@ package fr.difs.minijeu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class OptionActivity extends AppCompatActivity implements View.OnClickListener {
+public class OptionActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
 
-    SharedPreferences sharedPref;
-    Button btnDebug;
-    TextView txtSpeed;
+    private SharedPreferences sharedPref;
+    private Button btnDebug;
+    private TextView txtSpeed;
+
+    private SensorManager sensorManager;
+
+    private float xSpeed;
+    private float ySpeed;
+    private float light;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +32,27 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
         sharedPref = getSharedPreferences("OptionsPreferences", MODE_PRIVATE);
 
-        btnDebug = findViewById(R.id.btnDebug);
-        btnDebug.setOnClickListener(this);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        // Accelerometer
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        // Light sensor
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
+
 
         txtSpeed = findViewById(R.id.txtSpeed);
 
+        btnDebug = findViewById(R.id.btnDebug);
         Button btnPlus = findViewById(R.id.btnVitessePlus);
         Button btnMoins = findViewById(R.id.btnVitesseMoins);
+        Button btnMenu = findViewById(R.id.btnOptionsMenu);
+        Button btnCalibAccel = findViewById(R.id.btnCalibrerAccel);
+        Button btnCalibLight = findViewById(R.id.btnCalibrerLight);
+        btnDebug.setOnClickListener(this);
         btnPlus.setOnClickListener(this);
         btnMoins.setOnClickListener(this);
-
-        Button btnMenu = findViewById(R.id.btnOptionsMenu);
         btnMenu.setOnClickListener(this);
+        btnCalibAccel.setOnClickListener(this);
+        btnCalibLight.setOnClickListener(this);
 
         refreshDebug();
         refreshSpeed();
@@ -43,30 +60,37 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        SharedPreferences.Editor editor = sharedPref.edit();
         switch (v.getId()) {
             case R.id.btnDebug:
-                SharedPreferences.Editor editor1 = sharedPref.edit();
-                editor1.putBoolean("debug_mode", !sharedPref.getBoolean("debug_mode", false));
-                editor1.apply();
+                editor.putBoolean("debug_mode", !sharedPref.getBoolean("debug_mode", false));
+                editor.apply();
                 refreshDebug();
                 break;
             case R.id.btnVitessePlus:
                 float speed1 = sharedPref.getFloat("speed", 1);
-                if(speed1 < 10) {
-                    SharedPreferences.Editor editor2 = sharedPref.edit();
-                    editor2.putFloat("speed", speed1 + .25f);
-                    editor2.apply();
+                if (speed1 < 10) {
+                    editor.putFloat("speed", speed1 + .25f);
+                    editor.apply();
                     refreshSpeed();
                 }
                 break;
             case R.id.btnVitesseMoins:
                 float speed2 = sharedPref.getFloat("speed", 1);
-                if(speed2 > 0) {
-                    SharedPreferences.Editor editor3 = sharedPref.edit();
-                    editor3.putFloat("speed", speed2 - .25f);
-                    editor3.apply();
+                if (speed2 > 0) {
+                    editor.putFloat("speed", speed2 - .25f);
+                    editor.apply();
                     refreshSpeed();
                 }
+                break;
+            case R.id.btnCalibrerAccel:
+                editor.putFloat("xSpeed", xSpeed);
+                editor.putFloat("ySpeed", ySpeed);
+                editor.apply();
+                break;
+            case R.id.btnCalibrerLight:
+                editor.putFloat("light", light);
+                editor.apply();
                 break;
             case R.id.btnOptionsMenu:
                 Intent intent = new Intent(this, MenuActivity.class);
@@ -84,5 +108,21 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
 
     private void refreshSpeed() {
         txtSpeed.setText(sharedPref.getFloat("speed", 1) + "");
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            xSpeed = event.values[0];
+            ySpeed = event.values[1];
+        }
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            light = event.values[0];
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

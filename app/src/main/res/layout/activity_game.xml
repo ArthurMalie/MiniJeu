@@ -32,15 +32,6 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
-
-        <ImageView
-            android:id="@+id/blackFilter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:srcCompat="@drawable/blackfilter" />
-
-
         <Space
             android:id="@+id/space1"
             android:layout_width="match_parent"
