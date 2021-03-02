@@ -34,6 +34,7 @@
             <wall left="5" top="15" right="15" bottom="17" light="night"/>
         </walls>
         <entities>
+            <entity x="13.5" y="5.5" size="2" type="win"/>
         </entities>
     </map>
 

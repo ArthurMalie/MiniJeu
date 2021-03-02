@@ -131,6 +131,7 @@ public class OptionActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnResetUnlocks:
                 unlocksEditor.clear();
                 unlocksEditor.apply();
+                optionsEditor.putInt("resume_level", 1);
                 btnResetUnlocks.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.orange_variant_dark, null));
                 break;
             case R.id.btnOptionsMenu:

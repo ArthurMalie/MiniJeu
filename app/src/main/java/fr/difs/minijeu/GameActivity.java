@@ -53,9 +53,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Accelerometer
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         // Light sensor
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_GAME);
 
         // Récupération du niveau à charger mapLevel
         mapLevel = getIntent().getIntExtra("LEVEL", 1);
@@ -65,7 +65,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Map map = null;
 
         try {
-            map = parseXml(parser, mapLevel);
+            map = parseXml(parser);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private Map parseXml(XmlResourceParser parser, int i) {
+    private Map parseXml(XmlResourceParser parser) {
         int eventType = -1;
         List<Wall> walls = new ArrayList<>();
         List<Entity> entities = new ArrayList<>();
@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         try {
             while (eventType != parser.END_DOCUMENT) {
                 if (eventType == parser.START_TAG) {
-                    if (parser.getName().equals("map") && parser.getAttributeValue(null, "level").equals(String.valueOf(i))) {
+                    if (parser.getName().equals("map") && parser.getAttributeValue(null, "level").equals(String.valueOf(mapLevel))) {
                         spawnX = Double.parseDouble(parser.getAttributeValue(null, "spawnX"));
                         spawnY = Double.parseDouble(parser.getAttributeValue(null, "spawnY"));
                         playerSize = Double.parseDouble(parser.getAttributeValue(null, "playerSize"));
@@ -163,7 +163,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 eventType = parser.next();
             }
-            return new Map(i, spawnX, spawnY, playerSize, walls, entities);
+            return new Map(mapLevel, spawnX, spawnY, playerSize, walls, entities);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.toString());

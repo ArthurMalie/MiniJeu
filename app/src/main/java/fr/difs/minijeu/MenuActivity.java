@@ -1,6 +1,7 @@
 package fr.difs.minijeu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -31,6 +32,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         btnPlay.setOnClickListener(this);
         btnLevelSelect.setOnClickListener(this);
         btnOption.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -38,8 +41,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()) {
             case R.id.btnPlay:
-                // Lancement du jeu
+                // Lancement du jeu (reprise au dernier niveau JOUÉ ou au niveau suivant si terminé)
+                SharedPreferences optionsPrefs = getSharedPreferences("OptionsPreferences", MODE_PRIVATE);
                 intent = new Intent(this, GameActivity.class);
+                intent.putExtra("LEVEL", optionsPrefs.getInt("resume_level", 1));
                 startActivity(intent);
                 break;
             case R.id.btnLevelSelect:

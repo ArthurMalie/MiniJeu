@@ -53,12 +53,27 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="161dp" />
+            android:layout_height="70dp" />
+
+        <Button
+            android:id="@+id/btnNextLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:text="Niveau suivant"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
 
         <Button
             android:id="@+id/btnRetry"
-            android:layout_width="match_parent"
-            android:layout_height="106dp"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
             android:backgroundTint="@android:color/holo_orange_light"
             android:text="Rejouer"
             android:textSize="30sp"
@@ -70,11 +85,12 @@
 
         <Button
             android:id="@+id/btnEndMenu"
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
             android:backgroundTint="@android:color/holo_orange_light"
             android:text="MENU PRINCIPAL"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </LinearLayout>

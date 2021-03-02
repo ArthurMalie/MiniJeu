@@ -83,6 +83,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         defaultX = sharedPrefs.getFloat("xSpeed", 0);
         defaultY = sharedPrefs.getFloat("ySpeed", 0);
         defaultLight = sharedPrefs.getFloat("light", 5);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putInt("resume_level", map.getLevel());
+        editor.apply();
 
         // Image de la bille
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
@@ -158,7 +161,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         // Si le joueur touche une entité
-        double distance = 0;
+        double distance;
         for (Entity entity : map.getEntities()) {
             distance = Math.sqrt((x - entity.getX()) * (x - entity.getX()) + (y - entity.getY()) * (y - entity.getY()));
             if (entity instanceof Hole && playerSize <= (entity.getSize())
@@ -172,10 +175,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (entity instanceof MiniBonus) {
                     playerSize /= 2;
                     ((MiniBonus) entity).use();
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
                 }
                 if (entity instanceof MaxiBonus) {
                     playerSize *= 2;
                     ((MaxiBonus) entity).use();
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bille);
                 }
             }
         }
@@ -356,9 +361,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // HUD
             paint.setColor(Color.WHITE);
+            paint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText("Level " + map.getLevel(), 180, 60, paint);
             paint.setTextSize(screenHeight / 16);
             paint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawText((int) score / 100 + "", screenWidth - 25, 80, paint);
+            canvas.drawText((int) score / 100 + "", screenWidth - 15, 80, paint);
 
             if (debugMode) {
                 paint.setTextSize(15);
