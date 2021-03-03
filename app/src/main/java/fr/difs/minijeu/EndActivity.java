@@ -63,7 +63,7 @@ public class EndActivity extends AppCompatActivity implements View.OnClickListen
             int level = getIntent().getIntExtra("LEVEL", 0);
             SharedPreferences sharedPreferences = getSharedPreferences("ScorePreferences", MODE_PRIVATE);
             // si le score est inferieur au highscore
-            if (score < sharedPreferences.getFloat(level + "", 0)) {
+            if (score < sharedPreferences.getFloat(level + "", 100)) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat(level + "", score);
                 editor.apply();

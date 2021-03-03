@@ -194,11 +194,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setLight(int light) {
-        this.light = light ;
+        this.light = light;
     }
 
     public void move(double x, double y) {
-        xSpeed = -(x - defaultX)  * speed;
+        xSpeed = -(x - defaultX) * speed;
         ySpeed = (y - defaultY) * speed;
         if (xSpeed > playerSize)
             xSpeed = playerSize;

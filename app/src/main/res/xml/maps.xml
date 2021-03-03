@@ -132,7 +132,7 @@
         </entities>
     </map>
 
-    <map level="4" spawnX="3" spawnY="3" playerSize="2.5">
+    <map level="3" spawnX="3" spawnY="3" playerSize="2.5">
         <walls>
             <wall left="0" right="20" top="0" bottom="1" light="both"/>
             <wall left="0" right="1" top="0" bottom="32" light="both"/>
