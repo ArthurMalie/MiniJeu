@@ -59,15 +59,15 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/level" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="135dp"
+                android:layout_height="105dp"
                 android:layout_gravity="center"
-                android:backgroundTint="@android:color/holo_orange_light"
-                android:text="Options"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:adjustViewBounds="true"
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/options" />
 
         </LinearLayout>
 
