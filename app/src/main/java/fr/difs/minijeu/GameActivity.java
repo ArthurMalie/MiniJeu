@@ -118,11 +118,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                                     double top = Double.parseDouble(parser.getAttributeValue(null, "top"));
                                     double right = Double.parseDouble(parser.getAttributeValue(null, "right"));
                                     double bottom = Double.parseDouble(parser.getAttributeValue(null, "bottom"));
-                                    String strNight = parser.getAttributeValue(null, "light");
-                                    boolean night = false;
-                                    if (strNight.equals("night"))
-                                        night = true;
-                                    walls.add(new Wall(left, top, right, bottom, night));
+                                    String light = parser.getAttributeValue(null, "light");
+                                    walls.add(new Wall(left, top, right, bottom, light));
                                 }
                                 eventType = parser.next();
                             }

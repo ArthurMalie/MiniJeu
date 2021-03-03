@@ -326,7 +326,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
 
-            // player
+            // bille
             bitmap = Bitmap.createScaledBitmap(bitmap, (int) (playerSize * 2), (int) (playerSize * 2), true);
             canvas.drawBitmap(bitmap, (float) x - playerSize, (float) y - playerSize, null);
 
@@ -349,13 +349,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.rgb(150, 125, 100));
             if (map != null) {
                 for (Wall wall : map.getWalls()) {
-                    if (light < defaultLight / 8 && wall.isNight()
-                            || !wall.isNight())
+                    if ((light < defaultLight / 8 && wall.getLight().equals("night"))
+                            || (light > defaultLight / 8 && wall.getLight().equals("day"))
+                            || wall.getLight().equals("both")) {
                         canvas.drawRect(
                                 (float) wall.getLeft(),
                                 (float) wall.getTop(),
                                 (float) wall.getRight(),
                                 (float) wall.getBottom(), paint);
+                    }
                 }
             }
 

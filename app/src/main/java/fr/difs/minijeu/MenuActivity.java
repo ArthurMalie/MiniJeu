@@ -19,7 +19,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton btnPlay;
     private ImageButton btnLevelSelect;
-    private Button btnOption;
+    private ImageButton btnOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

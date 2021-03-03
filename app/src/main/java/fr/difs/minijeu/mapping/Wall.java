@@ -6,14 +6,14 @@ public class Wall {
     private double top;
     private double right;
     private double bottom;
-    private boolean night;
+    private String light;
 
-    public Wall(double left, double top, double right, double bottom, boolean night) {
+    public Wall(double left, double top, double right, double bottom, String light) {
         this.left = left / 20;
         this.top = top / 32;
         this.right = right / 20;
         this.bottom = bottom / 32;
-        this.night = night;
+        this.light = light;
     }
 
     public double getLeft() {
@@ -32,8 +32,8 @@ public class Wall {
         return bottom;
     }
 
-    public boolean isNight() {
-        return night;
+    public String getLight() {
+        return light;
     }
 
     public void setDimensions(int width, int height) {

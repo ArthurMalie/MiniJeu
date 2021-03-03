@@ -75,14 +75,14 @@
 
     <map level="2" spawnX="5" spawnY="10" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="1" light="day"/>
-            <wall left="0" top="0" right="1" bottom="32" light="day"/>
-            <wall left="0" top="31" right="20" bottom="32" light="day"/>
-            <wall left="19" top="0" right="20" bottom="32" light="day"/>
-            <wall left="9" top="0" right="11" bottom="14" light="day"/>
-            <wall left="9" top="17" right="11" bottom="29" light="day"/>
-            <wall left="4" top="14" right="16" bottom="15" light="day"/>
-            <wall left="4" top="16" right="16" bottom="17" light="day"/>
+            <wall left="0" top="0" right="20" bottom="1" light="both"/>
+            <wall left="0" top="0" right="1" bottom="32" light="both"/>
+            <wall left="0" top="31" right="20" bottom="32" light="both"/>
+            <wall left="19" top="0" right="20" bottom="32" light="both"/>
+            <wall left="9" top="0" right="11" bottom="14" light="both"/>
+            <wall left="9" top="17" right="11" bottom="29" light="both"/>
+            <wall left="4" top="14" right="16" bottom="15" light="both"/>
+            <wall left="4" top="16" right="16" bottom="17" light="both"/>
         </walls>
         <entities>
             <entity x="3" y="28.5" size="2.5" type="win"/>
@@ -132,4 +132,26 @@
         </entities>
     </map>
 
+    <map level="4" spawnX="3" spawnY="3" playerSize="2.5">
+        <walls>
+            <wall left="0" right="20" top="0" bottom="1" light="both"/>
+            <wall left="0" right="1" top="0" bottom="32" light="both"/>
+            <wall left="0" right="20" top="31" bottom="32" light="both"/>
+            <wall left="19" right="20" top="0" bottom="32" light="both"/>
+
+            <wall left="1" right="9" top="5" bottom="7" light="day"/>
+            <wall left="5" right="7" top="7" bottom="11" light="night"/>
+            <wall left="10" right="13" top="10" bottom="12" light="day"/>
+            <wall left="13" right="15" top="5" bottom="19" light="night"/>
+            <wall left="1" right="13" top="15" bottom="17" light="day"/>
+            <wall left="7" right="9" top="17" bottom="27" light="night"/>
+            <wall left="3" right="5" top="19" bottom="31" light="day"/>
+            <wall left="7" right="17" top="27" bottom="29" light="night"/>
+            <wall left="13" right="19" top="23" bottom="25" light="day"/>
+        </walls>
+        <entities>
+            <entity x="2" y="30" size="2" type="win"/>
+            <entity x="3" y="9" size="0.8" type="small"/>
+        </entities>
+    </map>
 </maps>
