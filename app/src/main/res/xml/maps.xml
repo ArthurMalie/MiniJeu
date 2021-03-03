@@ -27,10 +27,10 @@
 
     <map level="0" spawnX="10" spawnY="15" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="0.01" light="day"/>
-            <wall left="0" top="0" right="0.01" bottom="32" light="day"/>
-            <wall left="0" top="31.99" right="20" bottom="32" light="day"/>
-            <wall left="19.99" top="0" right="20" bottom="32" light="day"/>
+            <wall left="0" top="0" right="20" bottom="0.01" light="both"/>
+            <wall left="0" top="0" right="0.01" bottom="32" light="both"/>
+            <wall left="0" top="31.99" right="20" bottom="32" light="both"/>
+            <wall left="19.99" top="0" right="20" bottom="32" light="both"/>
             <wall left="5" top="15" right="15" bottom="17" light="night"/>
         </walls>
         <entities>
@@ -40,19 +40,19 @@
 
     <map level="1" spawnX="3" spawnY="3" playerSize="1.8">
         <walls>
-            <wall left="0" top="0" right="20" bottom="1" light="day"/>
-            <wall left="0" top="0" right="1" bottom="32" light="day"/>
-            <wall left="0" top="31" right="20" bottom="32" light="day"/>
-            <wall left="19" top="0" right="20" bottom="32" light="day"/>
-            <wall left="6" top="0" right="8" bottom="26" light="day"/>
-            <wall left="1" top="6" right="4" bottom="8" light="day"/>
-            <wall left="3" top="24" right="7" bottom="26" light="day"/>
-            <wall left="8" top="24" right="12" bottom="26" light="day"/>
-            <wall left="8" top="12" right="12" bottom="14" light="day"/>
-            <wall left="15" top="12" right="19" bottom="14" light="day"/>
-            <wall left="15" top="24" right="19" bottom="26" light="day"/>
-            <wall left="10" top="7" right="17" bottom="8" light="day"/>
-            <wall left="10" top="18" right="17" bottom="20" light="day"/>
+            <wall left="0" top="0" right="20" bottom="1" light="both"/>
+            <wall left="0" top="0" right="1" bottom="32" light="both"/>
+            <wall left="0" top="31" right="20" bottom="32" light="both"/>
+            <wall left="19" top="0" right="20" bottom="32" light="both"/>
+            <wall left="6" top="0" right="8" bottom="26" light="both"/>
+            <wall left="1" top="6" right="4" bottom="8" light="both"/>
+            <wall left="3" top="24" right="7" bottom="26" light="both"/>
+            <wall left="8" top="24" right="12" bottom="26" light="both"/>
+            <wall left="8" top="12" right="12" bottom="14" light="both"/>
+            <wall left="15" top="12" right="19" bottom="14" light="both"/>
+            <wall left="15" top="24" right="19" bottom="26" light="both"/>
+            <wall left="10" top="7" right="17" bottom="8" light="both"/>
+            <wall left="10" top="18" right="17" bottom="20" light="both"/>
         </walls>
         <entities>
             <entity x="13.5" y="5.5" size="2" type="win"/>
